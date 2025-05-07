@@ -1,0 +1,18 @@
+/* Home Page Container */
+.home-page {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  /* Spacing Between Components */
+  .home-page > * + * {
+    margin-top: 32px;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .home-page {
+      padding: 0 16px;
+    }
+  }

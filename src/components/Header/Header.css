@@ -1,0 +1,108 @@
+/* Header Container */
+.header {
+    background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 16px 20px;
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Header Content */
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Logo */
+  .logo {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    transition: all 0.3s ease;
+  }
+  
+  .logo:hover {
+    transform: scale(1.05);
+  }
+  
+  .logo h1 {
+    margin: 0;
+  }
+  
+  /* Wallet Info */
+  .wallet-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .connected {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .address {
+    font-size: 14px;
+    color: #007bff;
+    font-weight: 600;
+  }
+  
+  .owner-badge {
+    background: #ff5722;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(255, 87, 34, 0.3);
+  }
+  
+  .connect-btn {
+    background: linear-gradient(135deg, #a3e635, #84cc16);
+    color: #111827;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 12px rgba(163, 230, 53, 0.3);
+  }
+  
+  .connect-btn:hover {
+    background: linear-gradient(135deg, #84cc16, #65a30d);
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 15px rgba(163, 230, 53, 0.4);
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .header {
+      padding: 12px 16px;
+    }
+  
+    .logo {
+      font-size: 20px;
+    }
+  
+    .address {
+      font-size: 12px;
+    }
+  
+    .owner-badge {
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+  
+    .connect-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  }

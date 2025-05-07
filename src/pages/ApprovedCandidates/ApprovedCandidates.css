@@ -1,0 +1,114 @@
+.candidates-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+  
+  .candidates-container h1 {
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #333;
+  }
+  
+  .candidates-loading, 
+  .candidates-error,
+  .no-candidates {
+    text-align: center;
+    margin: 3rem 0;
+    font-size: 1.2rem;
+  }
+  
+  .candidates-error {
+    color: #d9534f;
+  }
+  
+  .candidates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .candidate-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    padding: 1.5rem;
+    border-top: 4px solid #28a745;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .candidate-img-container {
+    text-align: center;
+    margin-bottom: 1rem;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.candidate-img {
+    width: 120px;
+    height: 150px; 
+    border-radius: 40%; 
+    object-fit: cover;
+    object-position: center 20%;
+    border: 3px solid #28a745;
+}
+  .candidate-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .candidate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .candidate-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .status-badge.approved {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .candidate-party,
+  .candidate-position {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  .candidate-party {
+    color: #007bff;
+  }
+  
+  .candidate-info {
+    margin-top: 1rem;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+  }
+  
+  .candidate-info p {
+    margin-bottom: 0.8rem;
+  }
+  
+  @media (max-width: 768px) {
+    .candidates-grid {
+      grid-template-columns: 1fr;
+    }
+  }

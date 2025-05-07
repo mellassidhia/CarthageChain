@@ -1,0 +1,107 @@
+/* PostForm Container */
+.post-form {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 24px 32px;
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+  }
+  
+  .post-form:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 3px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Title */
+  .post-form h2 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 16px;
+    position: relative;
+    padding-left: 32px;
+  }
+  
+  .post-form h2::before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  /* Textarea */
+  .post-textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: none;
+    margin-bottom: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .post-textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+  }
+  
+  /* Button */
+  .post-button {
+    background: linear-gradient(135deg, #a3e635, #84cc16);
+    color: #111827;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 12px rgba(163, 230, 53, 0.3);
+  }
+  
+  .post-button:hover {
+    background: linear-gradient(135deg, #84cc16, #65a30d);
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 6px 15px rgba(163, 230, 53, 0.4);
+  }
+  
+  .post-button.loading {
+    background: linear-gradient(135deg, #ccc, #bbb);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* Connect Wallet Notice */
+  .connect-notice {
+    font-size: 14px;
+    color: #e53e3e;
+    text-align: center;
+    margin-top: 16px;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .post-form {
+      padding: 16px 24px;
+    }
+  
+    .post-form h2 {
+      font-size: 18px;
+      padding-left: 28px;
+    }
+  
+    .post-form h2::before {
+      width: 16px;
+      height: 16px;
+    }
+  }

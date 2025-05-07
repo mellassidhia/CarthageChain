@@ -1,0 +1,1003 @@
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "enum CarthageChainElection.CandidateStatus",
+				"name": "status",
+				"type": "uint8"
+			}
+		],
+		"name": "CandidateRegistered",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "enum CarthageChainElection.CandidateStatus",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			}
+		],
+		"name": "CandidateStatusUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "enum CarthageChainElection.VoterStatus",
+				"name": "status",
+				"type": "uint8"
+			}
+		],
+		"name": "VoterRegistered",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "enum CarthageChainElection.VoterStatus",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			}
+		],
+		"name": "VoterStatusUpdated",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "admin",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "_addresses",
+				"type": "address[]"
+			}
+		],
+		"name": "batchResetUserRoles",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "candidateAddresses",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "candidatesBasic",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "fullName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "dob",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "nationality",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "govId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "residentialAddress",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "phone",
+				"type": "string"
+			},
+			{
+				"internalType": "enum CarthageChainElection.CandidateStatus",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "statusMessage",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "exists",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "candidatesDocuments",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "profileDataCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "idDocumentCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "supportDocumentCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "financialDocumentCID",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "candidatesExtended",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "education",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "occupation",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "politicalParty",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "previousExperience",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "keyProposals",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "campaignFunding",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "supportSignatures",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllCandidates",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllVoters",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_candidateAddress",
+				"type": "address"
+			}
+		],
+		"name": "getCandidateBasicDetails",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "fullName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "dob",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "nationality",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "govId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "residentialAddress",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "phone",
+				"type": "string"
+			},
+			{
+				"internalType": "enum CarthageChainElection.CandidateStatus",
+				"name": "status",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_candidateAddress",
+				"type": "address"
+			}
+		],
+		"name": "getCandidateDocuments",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "profileDataCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "idDocumentCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "supportDocumentCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "financialDocumentCID",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_candidateAddress",
+				"type": "address"
+			}
+		],
+		"name": "getCandidateExtendedDetails",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "education",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "occupation",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "politicalParty",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "previousExperience",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "keyProposals",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "campaignFunding",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "supportSignatures",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getCandidateStatus",
+		"outputs": [
+			{
+				"internalType": "enum CarthageChainElection.CandidateStatus",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_candidateAddress",
+				"type": "address"
+			}
+		],
+		"name": "getCandidateStatusMessage",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "enum CarthageChainElection.CandidateStatus",
+				"name": "_status",
+				"type": "uint8"
+			}
+		],
+		"name": "getFilteredCandidates",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "enum CarthageChainElection.VoterStatus",
+				"name": "_status",
+				"type": "uint8"
+			}
+		],
+		"name": "getFilteredVoters",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserRole",
+		"outputs": [
+			{
+				"internalType": "enum CarthageChainElection.Role",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_voterAddress",
+				"type": "address"
+			}
+		],
+		"name": "getVoterDetails",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "fullName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "dob",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "govId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "residentialAddress",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "phone",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "profileDataCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "idDocumentCID",
+				"type": "string"
+			},
+			{
+				"internalType": "enum CarthageChainElection.VoterStatus",
+				"name": "status",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getVoterStatus",
+		"outputs": [
+			{
+				"internalType": "enum CarthageChainElection.VoterStatus",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_voterAddress",
+				"type": "address"
+			}
+		],
+		"name": "getVoterStatusMessage",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "isAdmin",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_fullName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_dob",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_nationality",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_govId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_residentialAddress",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_phone",
+				"type": "string"
+			}
+		],
+		"name": "registerCandidateBasicInfo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_profileDataCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_idDocumentCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_supportDocumentCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_financialDocumentCID",
+				"type": "string"
+			}
+		],
+		"name": "registerCandidateDocuments",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_education",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_occupation",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_politicalParty",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_previousExperience",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_keyProposals",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_campaignFunding",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_supportSignatures",
+				"type": "uint256"
+			}
+		],
+		"name": "registerCandidateExtendedInfo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "fullName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "dob",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "govId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "residentialAddress",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "email",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "phone",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "profileDataCID",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "idDocumentCID",
+						"type": "string"
+					}
+				],
+				"internalType": "struct CarthageChainElection.VoterRegistrationParams",
+				"name": "params",
+				"type": "tuple"
+			}
+		],
+		"name": "registerVoter",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "resetAllRoles",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			}
+		],
+		"name": "resetUserRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_candidateAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "enum CarthageChainElection.CandidateStatus",
+				"name": "_status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "_message",
+				"type": "string"
+			}
+		],
+		"name": "updateCandidateStatus",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_voterAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "enum CarthageChainElection.VoterStatus",
+				"name": "_status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "_message",
+				"type": "string"
+			}
+		],
+		"name": "updateVoterStatus",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "userRoles",
+		"outputs": [
+			{
+				"internalType": "enum CarthageChainElection.Role",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "voterAddresses",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "voters",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "fullName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "dob",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "govId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "residentialAddress",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "phone",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "profileDataCID",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "idDocumentCID",
+				"type": "string"
+			},
+			{
+				"internalType": "enum CarthageChainElection.VoterStatus",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "statusMessage",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "exists",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

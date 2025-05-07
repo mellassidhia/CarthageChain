@@ -1,0 +1,31 @@
+/* Add these styles to your App.css file */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+ 
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1 0 auto; /* This will make the container grow to fill available space */
+  padding-bottom: 2rem; /* Add some space before footer */
+}
+

@@ -1,0 +1,458 @@
+.admin-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .admin-logo {
+    height: 60px;
+    margin-right: 20px;
+  }
+  
+  .admin-header h1 {
+    color: #333;
+    font-size: 28px;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  .admin-info {
+    background-color: #f5f5f5;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+  
+  .admin-address {
+    font-weight: 600;
+    color: #0066cc;
+  }
+  
+  .admin-content {
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .admin-content.with-details .admin-tabs {
+    width: 40%;
+  }
+  
+  .admin-tabs {
+    width: 100%;
+    transition: width 0.3s ease;
+  }
+  
+  .tab-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  .tab-button {
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .tab-button.active {
+    color: #2196F3;
+  }
+  
+  .tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #2196F3;
+  }
+  
+  .tab-button:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .tab-content {
+    padding: 20px;
+  }
+  
+  .users-list {
+    max-height: 600px;
+    overflow-y: auto;
+  }
+  
+  .user-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eaeaea;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-item:last-child {
+    border-bottom: none;
+  }
+  
+  .user-item:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .user-item-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .user-address {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }
+  
+  .view-details-button {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #333;
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-item:hover .view-details-button {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .user-details-panel {
+    width: 60%;
+    border-left: 1px solid #eaeaea;
+    overflow-y: auto;
+    max-height: 800px;
+  }
+  
+  .user-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eaeaea;
+    background-color: #f9f9f9;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .user-details-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .close-details-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  
+  .close-details-button:hover {
+    background-color: #eeeeee;
+    color: #333;
+  }
+  
+  .user-details-content {
+    padding: 20px;
+  }
+  
+  .user-profile-section {
+    display: flex;
+    margin-bottom: 25px;
+  }
+  
+  .user-profile-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 20px;
+  }
+  
+  .user-basic-info h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .user-basic-info p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 14px;
+  }
+  
+  .user-personal-info,
+  .candidate-education,
+  .candidate-experience,
+  .candidate-proposals,
+  .candidate-funding {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  
+  .user-personal-info h3,
+  .candidate-education h3,
+  .candidate-experience h3,
+  .candidate-proposals h3,
+  .candidate-funding h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .user-personal-info p,
+  .candidate-education p,
+  .candidate-experience p,
+  .candidate-proposals p,
+  .candidate-funding p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-line;
+  }
+  
+  .user-documents {
+    margin-bottom: 25px;
+  }
+  
+  .user-documents h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .documents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+  }
+  
+  .document-item {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .document-item h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #444;
+  }
+  
+  .view-document-link {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #2196F3;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-document-link:hover {
+    background-color: #0b7dda;
+  }
+  
+  .admin-action-section {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 25px;
+  }
+  
+  .admin-action-section h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .rejection-reason {
+    margin-bottom: 20px;
+  }
+  
+  .rejection-reason label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+  }
+  
+  .rejection-reason textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+  }
+  
+  .admin-buttons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .approve-button, .reject-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1;
+  }
+  
+  .approve-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .approve-button:hover:not(:disabled) {
+    background-color: #3d8b40;
+  }
+  
+  .reject-button {
+    background-color: #F44336;
+    color: white;
+  }
+  
+  .reject-button:hover:not(:disabled) {
+    background-color: #d32f2f;
+  }
+  
+  .approve-button:disabled, .reject-button:disabled {
+    background-color: #9E9E9E;
+    cursor: not-allowed;
+  }
+  
+  .no-data-message {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    margin: 30px 0;
+  }
+  
+  .admin-access-denied {
+    max-width: 500px;
+    margin: 100px auto;
+    text-align: center;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-access-denied h2 {
+    color: #F44336;
+    margin-bottom: 20px;
+  }
+  
+  .admin-access-denied p {
+    color: #555;
+    margin-bottom: 25px;
+  }
+  
+  .back-button {
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #0b7dda;
+  }
+  
+  @media (max-width: 992px) {
+    .admin-content.with-details {
+      flex-direction: column;
+    }
+    
+    .admin-content.with-details .admin-tabs,
+    .user-details-panel {
+      width: 100%;
+    }
+    
+    .user-details-panel {
+      border-left: none;
+      border-top: 1px solid #eaeaea;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .tab-buttons {
+      flex-direction: column;
+    }
+    
+    .tab-button {
+      width: 100%;
+      text-align: left;
+    }
+    
+    .tab-button.active::after {
+      display: none;
+    }
+    
+    .user-profile-section {
+      flex-direction: column;
+    }
+    
+    .user-profile-image {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+    
+    .admin-buttons {
+      flex-direction: column;
+    }
+  }

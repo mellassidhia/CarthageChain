@@ -1,0 +1,230 @@
+/* Post Detail Container */
+.post-detail {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Back Button */
+.back-btn {
+  display: inline-block;
+  color: #007bff;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: linear-gradient(145deg, #ffffff, #f9f9f9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+
+}
+
+.back-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Post Container */
+.post-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px 32px;
+  margin-top: 24px;
+  transition: all 0.3s ease;
+  width: 800px;
+  max-width: 800px;
+  min-height: 400px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Post Card */
+.post-card, .reply-card {
+  background: linear-gradient(145deg, #ffffff, #f9f9f9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px 32px;
+  margin-top: 24px;
+  transition: all 0.3s ease;
+
+}
+
+.post-card:hover, .reply-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Post Header */
+.post-header {
+  margin-bottom: 16px;
+}
+
+.post-header h2 {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #718096;
+}
+
+.post-author {
+  font-weight: 600;
+  color: #007bff;
+}
+
+/* Post Content */
+.post-content {
+  font-size: 16px;
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  hyphens: auto;
+}
+
+/* Replies Section */
+.replies-section {
+  margin-top: 32px;
+}
+
+.replies-section h3 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-bottom: 16px;
+}
+
+/* Replies List */
+.replies-list {
+  margin-bottom: 24px;
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.reply-author {
+  font-size: 14px;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.reply-timestamp {
+  font-size: 12px;
+  color: #718096;
+}
+
+.reply-content {
+  font-size: 16px;
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  hyphens: auto;
+}
+
+.delete-reply-btn {
+  background: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
+
+.delete-reply-btn:hover {
+  background: #c53030;
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 6px 15px rgba(229, 62, 62, 0.4);
+}
+
+/* No Replies State */
+.no-replies {
+  font-size: 16px;
+  color: #718096;
+  text-align: center;
+  padding: 24px;
+}
+
+/* Loading State */
+.loading-post {
+  font-size: 16px;
+  color: #718096;
+  text-align: center;
+  padding: 24px;
+}
+
+/* Error State */
+.error {
+  font-size: 16px;
+  color: #e53e3e;
+  text-align: center;
+  padding: 24px;
+  height: 100vh;    // check this one later
+}
+
+/* Connect Wallet Notice */
+.connect-notice {
+  font-size: 14px;
+  color: #e53e3e;
+  text-align: center;
+  margin-top: 16px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .post-detail {
+    padding: 0 16px;
+  }
+
+  .back-btn {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .post-container {
+    padding: 16px 24px;
+  }
+
+  .post-header h2 {
+    font-size: 20px;
+  }
+
+  .replies-section h3 {
+    font-size: 18px;
+  }
+
+  .reply-content {
+    font-size: 14px;
+  }
+}
