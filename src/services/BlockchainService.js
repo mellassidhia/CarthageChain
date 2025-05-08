@@ -6,8 +6,8 @@ import electionContractABI from "../contracts/electionContractABI.json";
 import votingContractABI from "../contracts/votingContractABI.json";
 
 // Contract addresses
-const electionContractAddress = "0x51d7c14bc6f6d17b02acafbf0aa51c30f7ec2ae8";
-const votingContractAddress = "0xcb839639233d42969f52e179027f614bdd1344ff";
+const electionContractAddress = "0xc39f6b7ba419ca21a6e15271c21bc40a9017cf91";
+const votingContractAddress = "0x2510f1a18f1bb40a83409d24647533e3c84c87f9";
 
 // Pinata Configuration from environment variables
 const PINATA_API_KEY = import.meta.env.VITE_PINATA_API_KEY;
@@ -463,35 +463,24 @@ class NotificationManager {
   }
 
   // Reset notification tracking for the current user
-  clearNotificationTracking() {
+   // Reset notification tracking for the current user
+   clearNotificationTracking() {
     try {
-      const currentAccount = this.getCurrentAccount();
-      if (!currentAccount) return false;
+      const message = "Notification tracking has been reset.";
+      
+      // Clear all localStorage data
+      localStorage.clear();
 
-      // Keys to clear for the current user
-      const userKeys = [
-        `userNotifications_${currentAccount}`,
-        `readGlobalNotifications_${currentAccount}`,
-        `lastVoterStatus_${currentAccount}`,
-        `lastCandidateStatus_${currentAccount}`,
-        `lastElectionCheckTime_${currentAccount}`,
-        `notifiedElections_${currentAccount}`,
-        `lastPendingVoterCount_${currentAccount}`,
-        `lastPendingCandidateCount_${currentAccount}`,
-        `processedEvents_${currentAccount}`,
-      ];
-
-      // Clear each key
-      userKeys.forEach((key) => localStorage.removeItem(key));
-
-      // Notify user of reset
+      // Add notification about the reset with the original message
       this.addLocalNotification({
         type: "system",
         title: "Notification System Reset",
-        message:
-          "Notification tracking has been reset. You may receive notifications again for previous events.",
+        message: message,
         timestamp: new Date().toISOString(),
       });
+
+      // Force page reload to ensure clean state
+      window.location.reload();
 
       return true;
     } catch (error) {
