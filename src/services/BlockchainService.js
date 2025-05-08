@@ -952,22 +952,7 @@ class BlockchainService {
 
           processedEvents.add(eventId);
           this.updateProcessedEvents(processedEvents);
-
-          // Create notification for admin
-
-          // this.addLocalNotification({
-          //   type: "election",
-          //   title: "New Election Created",
-          //   message: `Election "${name}" has been created`,
-          //   details: `Start: ${new Date(
-          //     startTime.toNumber() * 1000
-          //   ).toLocaleString()}, End: ${new Date(
-          //     endTime.toNumber() * 1000
-          //   ).toLocaleString()}`,
-          //   electionId: electionIdStr,
-          //   timestamp: new Date().toISOString(),
-          // });
-
+          
           // Also trigger general event
           this.triggerEvent(EventTypes.NewElection, {
             electionId: electionIdStr,
