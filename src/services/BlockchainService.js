@@ -2339,8 +2339,11 @@ class BlockchainService {
 
         // For each ongoing election, end it first
         for (const electionId of electionIds) {
-          const details = await this.votingContract.getElectionDetails(electionId);
-          if (details[4] === 1) { // if state is ONGOING (1)
+          const details = await this.votingContract.getElectionDetails(
+            electionId
+          );
+          if (details[4] === 1) {
+            // if state is ONGOING (1)
             const tx = await this.votingContract.endElection(electionId, {
               gasLimit: 500000,
             });
@@ -2368,11 +2371,11 @@ class BlockchainService {
         console.log("Successfully reset all user roles and statuses");
       } catch (e) {
         console.error("Error resetting user roles:", e);
-        
+
         // Fallback approach if resetAllRoles fails
         try {
           console.log("Trying alternative reset approach...");
-          
+
           // Get all voters and candidates
           const allVoters = await this.electionContract.getAllVoters();
           const allCandidates = await this.electionContract.getAllCandidates();
@@ -2380,16 +2383,20 @@ class BlockchainService {
           // Use batch reset if available
           if (typeof this.electionContract.batchResetUserRoles === "function") {
             if (allVoters.length > 0) {
-              const txVoters = await this.electionContract.batchResetUserRoles(allVoters, {
-                gasLimit: 500000,
-              });
+              const txVoters = await this.electionContract.batchResetUserRoles(
+                allVoters,
+                {
+                  gasLimit: 500000,
+                }
+              );
               await txVoters.wait();
             }
 
             if (allCandidates.length > 0) {
-              const txCandidates = await this.electionContract.batchResetUserRoles(allCandidates, {
-                gasLimit: 500000,
-              });
+              const txCandidates =
+                await this.electionContract.batchResetUserRoles(allCandidates, {
+                  gasLimit: 500000,
+                });
               await txCandidates.wait();
             }
           } else {
@@ -2467,8 +2474,8 @@ class BlockchainService {
           key.includes("lastVoterStatus") ||
           key.includes("lastCandidateStatus") ||
           key.includes("processedEvents") ||
-          key.includes("notifiedElections") || 
-          key.includes("lastElectionCheck")     
+          key.includes("notifiedElections") ||
+          key.includes("lastElectionCheck")
         ) {
           keys.push(key);
         }
