@@ -293,25 +293,8 @@ const checkUserStatusChanges = async () => {
           `Voter status changed from ${lastStatus} to ${currentStatus}`
         );
 
-        // If rejected, display rejection notification with number of rejections
-        if (currentStatus === VoterStatusEnum.Rejected) {
-          // Get rejection count
-          const rejectionCount = await BlockchainService.getRejectionCountForVoter(accountKey);
-          
-          // Create notification with rejection count
-          const statusText = `Your voter registration has been rejected (Rejection #${rejectionCount}).`;
-          const statusDetails = userInfo.voterInfo?.statusMessage || "Please update your information and resubmit your application.";
-          
-          // BlockchainService.addLocalNotification({
-          //   type: "status",
-          //   title: "Voter Registration Rejected",
-          //   message: statusText,
-          //   details: statusDetails,
-          //   timestamp: new Date().toISOString(),
-          // });
-        }
         // If approved, notify about approval
-        else if (currentStatus === VoterStatusEnum.Approved) {
+        if (currentStatus === VoterStatusEnum.Approved) {
           const statusText = "Your voter registration has been approved!";
           const statusDetails = "You can now participate in elections. Check your profile for details.";
           
@@ -340,26 +323,8 @@ const checkUserStatusChanges = async () => {
         console.log(
           `Candidate status changed from ${lastStatus} to ${currentStatus}`
         );
-
-        // If rejected, display rejection notification with number of rejections
-        if (currentStatus === CandidateStatusEnum.Rejected) {
-          // Get rejection count
-          const rejectionCount = await BlockchainService.getRejectionCountForCandidate(accountKey);
-          
-          // Create notification with rejection count
-          const statusText = `Your candidate registration has been rejected (Rejection #${rejectionCount}).`;
-          const statusDetails = userInfo.candidateInfo?.statusMessage || "Please update your information and resubmit your application.";
-          
-          // BlockchainService.addLocalNotification({
-          //   type: "status",
-          //   title: "Candidate Registration Rejected",
-          //   message: statusText,
-          //   details: statusDetails,
-          //   timestamp: new Date().toISOString(),
-          // });
-        }
         // If approved, notify about approval
-        else if (currentStatus === CandidateStatusEnum.Approved) {
+        if (currentStatus === CandidateStatusEnum.Approved) {
           const statusText = "Your candidate registration has been approved!";
           const statusDetails = "You can now participate in elections. Check your profile for details.";
           
@@ -881,62 +846,6 @@ const checkAdminNotifications = async () => {
                     {notification.details && (
                       <div className="notification-details">
                         {notification.details}
-                      </div>
-                    )}
-
-                    {/* Action buttons based on notification type */}
-                    {notification.type === "election" &&
-                      notification.electionId && (
-                        <div className="notification-action">
-                          {/* <Link
-                            to={`/elections/ongoing`}
-                            onClick={(e) => e.stopPropagation()}
-                            className="view-election-btn"
-                            data-testid="view-election-link"
-                          >
-                            View Election
-                          </Link> */}
-                        </div>
-                      )}
-                    {notification.type === "election_ended" &&
-                      notification.electionId && (
-                        <div className="notification-action">
-                          {/* <Link
-                            to={`/election-results`}
-                            onClick={(e) => e.stopPropagation()}
-                            className="view-results-btn"
-                            data-testid="view-results-link"
-                          >
-                            Go to Results
-                          </Link> */}
-                        </div>
-                      )}
-                    {notification.type === "vote" &&
-                      notification.electionId && (
-                        <div className="notification-action"></div>
-                      )}
-                    {notification.type === "admin" && (
-                      <div className="notification-action">
-                        {/* {notification.title.includes("Election") ||
-                        notification.title.includes("election") ? (
-                          <Link
-                            to="/admin/create-election"
-                            onClick={(e) => e.stopPropagation()}
-                            className="view-election-btn"
-                            data-testid="election-management-link"
-                          >
-                            Go to Election Management
-                          </Link>
-                        ) : (
-                          <Link
-                            to="/admin"
-                            onClick={(e) => e.stopPropagation()}
-                            className="view-election-btn"
-                            data-testid="admin-panel-link"
-                          >
-                            Go to Admin Panel
-                          </Link>
-                        )} */}
                       </div>
                     )}
                   </div>

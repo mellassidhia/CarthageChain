@@ -6,9 +6,8 @@ import electionContractABI from "../contracts/electionContractABI.json";
 import votingContractABI from "../contracts/votingContractABI.json";
 
 // Contract addresses
-const electionContractAddress = "0xc798a5e0584889195a4eb92bb300a0aad259e7b5";
-const votingContractAddress = "0x5b73ad37b924469cf2224b3b9f0a7b2926753021";
-
+const electionContractAddress = "0x51d7c14bc6f6d17b02acafbf0aa51c30f7ec2ae8";
+const votingContractAddress = "0xcb839639233d42969f52e179027f614bdd1344ff";
 
 // Pinata Configuration from environment variables
 const PINATA_API_KEY = import.meta.env.VITE_PINATA_API_KEY;
@@ -593,110 +592,117 @@ class BlockchainService {
     this.notificationManager = new NotificationManager();
   }
 
-
   // Get rejection count for a voter
-async getRejectionCountForVoter(address) {
-  try {
-    const accountKey = address.toLowerCase();
-    const rejectionCountKey = `voterRejectionCount_${accountKey}`;
-    const rejectionCount = parseInt(localStorage.getItem(rejectionCountKey) || "0");
-    return rejectionCount;
-  } catch (error) {
-    console.error("Error getting voter rejection count:", error);
-    return 0;
+  async getRejectionCountForVoter(address) {
+    try {
+      const accountKey = address.toLowerCase();
+      const rejectionCountKey = `voterRejectionCount_${accountKey}`;
+      const rejectionCount = parseInt(
+        localStorage.getItem(rejectionCountKey) || "0"
+      );
+      return rejectionCount;
+    } catch (error) {
+      console.error("Error getting voter rejection count:", error);
+      return 0;
+    }
   }
-}
 
-// Get rejection count for a candidate
-async getRejectionCountForCandidate(address) {
-  try {
-    const accountKey = address.toLowerCase();
-    const rejectionCountKey = `candidateRejectionCount_${accountKey}`;
-    const rejectionCount = parseInt(localStorage.getItem(rejectionCountKey) || "0");
-    return rejectionCount;
-  } catch (error) {
-    console.error("Error getting candidate rejection count:", error);
-    return 0;
+  // Get rejection count for a candidate
+  async getRejectionCountForCandidate(address) {
+    try {
+      const accountKey = address.toLowerCase();
+      const rejectionCountKey = `candidateRejectionCount_${accountKey}`;
+      const rejectionCount = parseInt(
+        localStorage.getItem(rejectionCountKey) || "0"
+      );
+      return rejectionCount;
+    } catch (error) {
+      console.error("Error getting candidate rejection count:", error);
+      return 0;
+    }
   }
-}
 
-// Increment rejection count for a voter
-async incrementRejectionCountForVoter(address) {
-  try {
-    const accountKey = address.toLowerCase();
-    const rejectionCountKey = `voterRejectionCount_${accountKey}`;
-    const currentCount = parseInt(localStorage.getItem(rejectionCountKey) || "0");
-    const newCount = currentCount + 1;
-    localStorage.setItem(rejectionCountKey, newCount.toString());
-    return newCount;
-  } catch (error) {
-    console.error("Error incrementing voter rejection count:", error);
-    return 0;
+  // Increment rejection count for a voter
+  async incrementRejectionCountForVoter(address) {
+    try {
+      const accountKey = address.toLowerCase();
+      const rejectionCountKey = `voterRejectionCount_${accountKey}`;
+      const currentCount = parseInt(
+        localStorage.getItem(rejectionCountKey) || "0"
+      );
+      const newCount = currentCount + 1;
+      localStorage.setItem(rejectionCountKey, newCount.toString());
+      return newCount;
+    } catch (error) {
+      console.error("Error incrementing voter rejection count:", error);
+      return 0;
+    }
   }
-}
 
-// Increment rejection count for a candidate
-async incrementRejectionCountForCandidate(address) {
-  try {
-    const accountKey = address.toLowerCase();
-    const rejectionCountKey = `candidateRejectionCount_${accountKey}`;
-    const currentCount = parseInt(localStorage.getItem(rejectionCountKey) || "0");
-    const newCount = currentCount + 1;
-    localStorage.setItem(rejectionCountKey, newCount.toString());
-    return newCount;
-  } catch (error) {
-    console.error("Error incrementing candidate rejection count:", error);
-    return 0;
+  // Increment rejection count for a candidate
+  async incrementRejectionCountForCandidate(address) {
+    try {
+      const accountKey = address.toLowerCase();
+      const rejectionCountKey = `candidateRejectionCount_${accountKey}`;
+      const currentCount = parseInt(
+        localStorage.getItem(rejectionCountKey) || "0"
+      );
+      const newCount = currentCount + 1;
+      localStorage.setItem(rejectionCountKey, newCount.toString());
+      return newCount;
+    } catch (error) {
+      console.error("Error incrementing candidate rejection count:", error);
+      return 0;
+    }
   }
-}
 
-// Reset rejection count for voter (use when approved)
-async resetRejectionCountForVoter(address) {
-  try {
-    const accountKey = address.toLowerCase();
-    const rejectionCountKey = `voterRejectionCount_${accountKey}`;
-    localStorage.setItem(rejectionCountKey, "0");
-    return true;
-  } catch (error) {
-    console.error("Error resetting voter rejection count:", error);
-    return false;
+  // Reset rejection count for voter (use when approved)
+  async resetRejectionCountForVoter(address) {
+    try {
+      const accountKey = address.toLowerCase();
+      const rejectionCountKey = `voterRejectionCount_${accountKey}`;
+      localStorage.setItem(rejectionCountKey, "0");
+      return true;
+    } catch (error) {
+      console.error("Error resetting voter rejection count:", error);
+      return false;
+    }
   }
-}
 
-// Reset rejection count for candidate (use when approved)
-async resetRejectionCountForCandidate(address) {
-  try {
-    const accountKey = address.toLowerCase();
-    const rejectionCountKey = `candidateRejectionCount_${accountKey}`;
-    localStorage.setItem(rejectionCountKey, "0");
-    return true;
-  } catch (error) {
-    console.error("Error resetting candidate rejection count:", error);
-    return false;
+  // Reset rejection count for candidate (use when approved)
+  async resetRejectionCountForCandidate(address) {
+    try {
+      const accountKey = address.toLowerCase();
+      const rejectionCountKey = `candidateRejectionCount_${accountKey}`;
+      localStorage.setItem(rejectionCountKey, "0");
+      return true;
+    } catch (error) {
+      console.error("Error resetting candidate rejection count:", error);
+      return false;
+    }
   }
-}
 
-// Check if this is a resubmission for voter
-async isVoterResubmission(address) {
-  try {
-    const rejectionCount = await this.getRejectionCountForVoter(address);
-    return rejectionCount > 0;
-  } catch (error) {
-    console.error("Error checking if voter is resubmitting:", error);
-    return false;
+  // Check if this is a resubmission for voter
+  async isVoterResubmission(address) {
+    try {
+      const rejectionCount = await this.getRejectionCountForVoter(address);
+      return rejectionCount > 0;
+    } catch (error) {
+      console.error("Error checking if voter is resubmitting:", error);
+      return false;
+    }
   }
-}
 
-// Check if this is a resubmission for candidate
-async isCandidateResubmission(address) {
-  try {
-    const rejectionCount = await this.getRejectionCountForCandidate(address);
-    return rejectionCount > 0;
-  } catch (error) {
-    console.error("Error checking if candidate is resubmitting:", error);
-    return false;
+  // Check if this is a resubmission for candidate
+  async isCandidateResubmission(address) {
+    try {
+      const rejectionCount = await this.getRejectionCountForCandidate(address);
+      return rejectionCount > 0;
+    } catch (error) {
+      console.error("Error checking if candidate is resubmitting:", error);
+      return false;
+    }
   }
-}
 
   // Add event listener (delegate to notification manager)
   addEventListener(eventType, callback) {
@@ -889,7 +895,7 @@ async isCandidateResubmission(address) {
       });
     }
   }
-  
+
   // Set up blockchain event listeners
   setupContractEventListeners() {
     try {
@@ -908,78 +914,29 @@ async isCandidateResubmission(address) {
       const processedEvents = this.loadProcessedEvents();
 
       //Listen for voter status updates
-      this.electionContract.on("VoterStatusUpdated", async (userAddress, status, message) => {
-        const currentUser = await this.signer.getAddress();
-        const eventId = `voter_${userAddress}_${status}_${Date.now()}`;
-
-        // Skip if already processed
-        if (processedEvents.has(eventId)) return;
-        processedEvents.add(eventId);
-        this.updateProcessedEvents(processedEvents);
-
-        // Only notify if the event is for the current user
-        // if (userAddress.toLowerCase() === currentUser.toLowerCase()) {
-        //   // Create a notification
-        //   const statusText = status === VoterStatusEnum.Approved
-        //     ? 'Your voter registration has been approved!'
-        //     : status === VoterStatusEnum.Rejected
-        //       ? 'Your voter registration has been rejected.'
-        //       : 'Your voter status has been updated.';
-
-        //   this.addLocalNotification({
-        //     type: 'status',
-        //     title: 'Voter Status Updated',
-        //     message: statusText,
-        //     details: message || '',
-        //     timestamp: new Date().toISOString()
-        //   });
-
-        //   // Also trigger general status change event
-        //   this.triggerEvent(EventTypes.StatusChange, {
-        //     type: 'voter',
-        //     status,
-        //     message,
-        //     timestamp: new Date()
-        //   });
-        // }
-      });
+      this.electionContract.on(
+        "VoterStatusUpdated",
+        async (userAddress, status, message) => {
+          const eventId = `voter_${userAddress}_${status}_${Date.now()}`;
+          // Skip if already processed
+          if (processedEvents.has(eventId)) return;
+          processedEvents.add(eventId);
+          this.updateProcessedEvents(processedEvents);
+        }
+      );
 
       //Listen for candidate status updates
-      this.electionContract.on("CandidateStatusUpdated", async (userAddress, status, message) => {
-        const currentUser = await this.signer.getAddress();
-        const eventId = `candidate_${userAddress}_${status}_${Date.now()}`;
+      this.electionContract.on(
+        "CandidateStatusUpdated",
+        async (userAddress, status, message) => {
+          const eventId = `candidate_${userAddress}_${status}_${Date.now()}`;
 
-        // Skip if already processed
-        if (processedEvents.has(eventId)) return;
-        processedEvents.add(eventId);
-        this.updateProcessedEvents(processedEvents);
-
-        // // Only notify if the event is for the current user
-        // if (userAddress.toLowerCase() === currentUser.toLowerCase()) {
-        //   // Create a notification
-        //   const statusText = status === CandidateStatusEnum.Approved
-        //     ? 'Your candidate registration has been approved!'
-        //     : status === CandidateStatusEnum.Rejected
-        //       ? 'Your candidate registration has been rejected.'
-        //       : 'Your candidate status has been updated.';
-
-        //   this.addLocalNotification({
-        //     type: 'status',
-        //     title: 'Candidate Status Updated',
-        //     message: statusText,
-        //     details: message || '',
-        //     timestamp: new Date().toISOString()
-        //   });
-
-        //   // Also trigger general status change event
-        //   this.triggerEvent(EventTypes.StatusChange, {
-        //     type: 'candidate',
-        //     status,
-        //     message,
-        //     timestamp: new Date()
-        //   });
-        // }
-      });
+          // Skip if already processed
+          if (processedEvents.has(eventId)) return;
+          processedEvents.add(eventId);
+          this.updateProcessedEvents(processedEvents);
+        }
+      );
 
       // Listen for new elections
       this.votingContract.on(
@@ -997,7 +954,7 @@ async isCandidateResubmission(address) {
           this.updateProcessedEvents(processedEvents);
 
           // Create notification for admin
-          
+
           // this.addLocalNotification({
           //   type: "election",
           //   title: "New Election Created",
@@ -1309,10 +1266,10 @@ async isCandidateResubmission(address) {
 
   async registerVoter(voterData, profileImage, idDocument) {
     await this.initialize();
-  
+
     try {
       const userAddress = await this.signer.getAddress();
-  
+
       // Check if this user was previously rejected
       let wasRejected = false;
       try {
@@ -1321,12 +1278,13 @@ async isCandidateResubmission(address) {
       } catch (error) {
         // If error occurs, user probably wasn't registered before
         // Continue with regular registration
+        console.error("Error checking previous voter status:", error);
       }
-  
+
       // Upload files to IPFS via Pinata
       const profileImageCID = await this.uploadFileToPinata(profileImage);
       const idDocumentCID = await this.uploadFileToPinata(idDocument);
-  
+
       // Prepare voter registration params
       const voterParams = {
         fullName: voterData.fullName,
@@ -1338,26 +1296,27 @@ async isCandidateResubmission(address) {
         profileDataCID: profileImageCID,
         idDocumentCID: idDocumentCID,
       };
-  
+
       // Register voter on blockchain
       const tx = await this.electionContract.registerVoter(voterParams);
-  
+
       await tx.wait();
-  
+
       // Get rejection count for notification message
       let rejectionCount = 0;
       if (wasRejected) {
         rejectionCount = await this.getRejectionCountForVoter(userAddress);
       }
-  
+
       // Create a notification for the registration
       let message = "";
       if (wasRejected) {
         message = `Your voter registration has been resubmitted (Attempt ${rejectionCount}) and is pending approval.`;
       } else {
-        message = "Your voter registration has been submitted and is pending approval.";
+        message =
+          "Your voter registration has been submitted and is pending approval.";
       }
-  
+
       this.addLocalNotification({
         type: "status",
         title: wasRejected
@@ -1367,7 +1326,7 @@ async isCandidateResubmission(address) {
         details: "You will be notified when an admin reviews your application.",
         timestamp: new Date().toISOString(),
       });
-  
+
       // Create an admin notification for resubmissions
       this.notifyAdminsAboutRegistration(
         "voter",
@@ -1375,7 +1334,7 @@ async isCandidateResubmission(address) {
         userAddress,
         wasRejected
       );
-  
+
       return true;
     } catch (error) {
       console.error("Error registering voter:", error);
@@ -1392,17 +1351,19 @@ async isCandidateResubmission(address) {
     try {
       // Get all admin addresses
       const adminAddresses = await this.getAllAdmins();
-      
+
       // Get rejection count
       let rejectionCount = 0;
       if (isResubmission) {
         if (userType === "voter") {
           rejectionCount = await this.getRejectionCountForVoter(userAddress);
         } else {
-          rejectionCount = await this.getRejectionCountForCandidate(userAddress);
+          rejectionCount = await this.getRejectionCountForCandidate(
+            userAddress
+          );
         }
       }
-      
+
       // Create message with resubmission attempt number if applicable
       let message = "";
       if (isResubmission) {
@@ -1410,7 +1371,7 @@ async isCandidateResubmission(address) {
       } else {
         message = `${fullName} has submitted a new ${userType} registration`;
       }
-      
+
       // Prepare the notification
       const notification = {
         type: "admin",
@@ -1422,17 +1383,17 @@ async isCandidateResubmission(address) {
         )}...${userAddress.slice(-4)}`,
         timestamp: new Date().toISOString(),
       };
-    
+
       // Notify each admin
       for (const adminAddress of adminAddresses) {
         this.addNotificationForUser(adminAddress, notification);
       }
-    
+
       // If current user is an admin, also show notification immediately
       const currentAccount = localStorage.getItem("connectedAccount");
       if (currentAccount) {
         const isAdmin = await this.isAdmin();
-    
+
         if (isAdmin) {
           this.addLocalNotification(notification);
         }
@@ -1485,10 +1446,10 @@ async isCandidateResubmission(address) {
     financialDocument
   ) {
     await this.initialize();
-  
+
     try {
       const userAddress = await this.signer.getAddress();
-  
+
       // Check if this user was previously rejected
       let wasRejected = false;
       try {
@@ -1497,8 +1458,9 @@ async isCandidateResubmission(address) {
       } catch (error) {
         // If error occurs, user probably wasn't registered before
         // Continue with regular registration
+        console.log(error);
       }
-  
+
       // Upload files to IPFS via Pinata
       const profileImageCID = await this.uploadFileToPinata(profileImage);
       const idDocumentCID = await this.uploadFileToPinata(idDocument);
@@ -1506,7 +1468,7 @@ async isCandidateResubmission(address) {
       const financialDocumentCID = await this.uploadFileToPinata(
         financialDocument
       );
-  
+
       // Step 1: Register basic candidate info
       let tx = await this.electionContract.registerCandidateBasicInfo(
         candidateData.fullName,
@@ -1517,9 +1479,9 @@ async isCandidateResubmission(address) {
         candidateData.email,
         candidateData.phone
       );
-  
+
       await tx.wait();
-  
+
       // Step 2: Register extended candidate info
       tx = await this.electionContract.registerCandidateExtendedInfo(
         candidateData.education,
@@ -1530,9 +1492,9 @@ async isCandidateResubmission(address) {
         candidateData.campaignFunding,
         candidateData.supportSignatures
       );
-  
+
       await tx.wait();
-  
+
       // Step 3: Register candidate documents
       tx = await this.electionContract.registerCandidateDocuments(
         profileImageCID,
@@ -1540,23 +1502,24 @@ async isCandidateResubmission(address) {
         supportDocumentCID,
         financialDocumentCID
       );
-  
+
       await tx.wait();
-  
+
       // Get rejection count for notification message
       let rejectionCount = 0;
       if (wasRejected) {
         rejectionCount = await this.getRejectionCountForCandidate(userAddress);
       }
-  
+
       // Create a notification for the registration
       let message = "";
       if (wasRejected) {
         message = `Your candidate registration has been resubmitted (Attempt ${rejectionCount}) and is pending approval.`;
       } else {
-        message = "Your candidate registration has been submitted and is pending approval.";
+        message =
+          "Your candidate registration has been submitted and is pending approval.";
       }
-  
+
       this.addLocalNotification({
         type: "status",
         title: wasRejected
@@ -1566,7 +1529,7 @@ async isCandidateResubmission(address) {
         details: "You will be notified when an admin reviews your application.",
         timestamp: new Date().toISOString(),
       });
-  
+
       // Create an admin notification for resubmissions
       this.notifyAdminsAboutRegistration(
         "candidate",
@@ -1574,7 +1537,7 @@ async isCandidateResubmission(address) {
         userAddress,
         wasRejected
       );
-  
+
       return true;
     } catch (error) {
       console.error("Error registering candidate:", error);
@@ -1841,7 +1804,7 @@ async isCandidateResubmission(address) {
   // Admin: Update voter status
   async updateVoterStatus(voterAddress, status, message) {
     await this.initialize();
-  
+
     try {
       const tx = await this.electionContract.updateVoterStatus(
         voterAddress,
@@ -1849,27 +1812,29 @@ async isCandidateResubmission(address) {
         message
       );
       const receipt = await tx.wait();
-  
+
       // Get voter details for notification
       const voterDetails = await this.getVoterDetails(voterAddress);
-      
+
       // Handle rejection count tracking
       if (status === VoterStatusEnum.Rejected) {
         // Increment rejection count
-        const newRejectionCount = await this.incrementRejectionCountForVoter(voterAddress);
-        
+        const newRejectionCount = await this.incrementRejectionCountForVoter(
+          voterAddress
+        );
+
         // Create admin notification about the action including rejection count
-// Only show admin notification if this is not the first rejection
-if (newRejectionCount > 1) {
-  this.addLocalNotification({
-    type: 'admin',
-    title: 'Voter Rejected',
-    message: `You've rejected voter: ${voterDetails.fullName} (Rejection #${newRejectionCount})`,
-    details: `Reason: ${message}`,
-    timestamp: new Date().toISOString()
-  });
-}
-        
+        // Only show admin notification if this is not the first rejection
+        if (newRejectionCount > 1) {
+          this.addLocalNotification({
+            type: "admin",
+            title: "Voter Rejected",
+            message: `You've rejected voter: ${voterDetails.fullName} (Rejection #${newRejectionCount})`,
+            details: `Reason: ${message}`,
+            timestamp: new Date().toISOString(),
+          });
+        }
+
         // Create a notification for the specific voter with rejection count
         this.addNotificationForUser(voterAddress, {
           type: "status",
@@ -1878,34 +1843,24 @@ if (newRejectionCount > 1) {
           details: `Reason: ${message}. You may update your information and resubmit your application.`,
           timestamp: new Date().toISOString(),
         });
-      } 
-      else if (status === VoterStatusEnum.Approved) {
+      } else if (status === VoterStatusEnum.Approved) {
         // Reset rejection count when approved
         await this.resetRejectionCountForVoter(voterAddress);
-        
-        // Create admin notification about the approval
-        // this.addLocalNotification({
-        //   type: 'admin',
-        //   title: 'Voter Approved',
-        //   message: `You've approved voter: ${voterDetails.fullName}`,
-        //   details: 'The voter has been notified of the approval.',
-        //   timestamp: new Date().toISOString()
-        // });
-        
         // Create a notification for the specific voter
         this.addNotificationForUser(voterAddress, {
           type: "status",
           title: "Voter Registration Approved",
           message: "Your voter registration has been approved!",
-          details: "You can now participate in elections. Check your profile for details.",
+          details:
+            "You can now participate in elections. Check your profile for details.",
           timestamp: new Date().toISOString(),
         });
       }
-  
+
       return true;
     } catch (error) {
       console.error("Error updating voter status:", error);
-  
+
       // Notification for error
       this.addLocalNotification({
         type: "error",
@@ -1914,7 +1869,7 @@ if (newRejectionCount > 1) {
         details: `Error: ${error.message}`,
         timestamp: new Date().toISOString(),
       });
-  
+
       throw error;
     }
   }
@@ -1922,7 +1877,7 @@ if (newRejectionCount > 1) {
   // Admin: Update candidate status
   async updateCandidateStatus(candidateAddress, status, message) {
     await this.initialize();
-  
+
     try {
       const tx = await this.electionContract.updateCandidateStatus(
         candidateAddress,
@@ -1930,26 +1885,27 @@ if (newRejectionCount > 1) {
         message
       );
       const receipt = await tx.wait();
-  
+
       // Get candidate details for notification
       const candidateDetails = await this.getCandidateDetails(candidateAddress);
-  
+
       // Handle rejection count tracking
       if (status === CandidateStatusEnum.Rejected) {
         // Increment rejection count
-        const newRejectionCount = await this.incrementRejectionCountForCandidate(candidateAddress);
-        
+        const newRejectionCount =
+          await this.incrementRejectionCountForCandidate(candidateAddress);
+
         // Create admin notification about the action including rejection count
         if (newRejectionCount > 1) {
-        this.addLocalNotification({
-          type: 'admin',
-          title: 'Candidate Rejected',
-          message: `You've rejected candidate: ${candidateDetails.fullName} (Rejection #${newRejectionCount})`,
-          details: `Reason: ${message}`,
-          timestamp: new Date().toISOString()
-        });
-      }
-        
+          this.addLocalNotification({
+            type: "admin",
+            title: "Candidate Rejected",
+            message: `You've rejected candidate: ${candidateDetails.fullName} (Rejection #${newRejectionCount})`,
+            details: `Reason: ${message}`,
+            timestamp: new Date().toISOString(),
+          });
+        }
+
         // Create a notification for the specific candidate with rejection count
         this.addNotificationForUser(candidateAddress, {
           type: "status",
@@ -1958,34 +1914,24 @@ if (newRejectionCount > 1) {
           details: `Reason: ${message}. You may update your information and resubmit your application.`,
           timestamp: new Date().toISOString(),
         });
-      } 
-      else if (status === CandidateStatusEnum.Approved) {
+      } else if (status === CandidateStatusEnum.Approved) {
         // Reset rejection count when approved
         await this.resetRejectionCountForCandidate(candidateAddress);
-        
-        // Create admin notification about the approval
-        // this.addLocalNotification({
-        //   type: 'admin',
-        //   title: 'Candidate Approved',
-        //   message: `You've approved candidate: ${candidateDetails.fullName}`,
-        //   details: 'The candidate has been notified of the approval.',
-        //   timestamp: new Date().toISOString()
-        // });
-        
         // Create a notification for the specific candidate
         this.addNotificationForUser(candidateAddress, {
           type: "status",
           title: "Candidate Registration Approved",
           message: "Your candidate registration has been approved!",
-          details: "You can now participate in elections. Check your profile for details.",
+          details:
+            "You can now participate in elections. Check your profile for details.",
           timestamp: new Date().toISOString(),
         });
       }
-  
+
       return true;
     } catch (error) {
       console.error("Error updating candidate status:", error);
-  
+
       // Notification for error
       this.addLocalNotification({
         type: "error",
@@ -1994,7 +1940,7 @@ if (newRejectionCount > 1) {
         details: `Error: ${error.message}`,
         timestamp: new Date().toISOString(),
       });
-  
+
       throw error;
     }
   }
@@ -2041,7 +1987,6 @@ if (newRejectionCount > 1) {
   }
 
   // =========== VOTING CONTRACT FUNCTIONS ===========
-
   // Create a new election - with no automatic start/end
   async createElection(electionData) {
     await this.initialize();
@@ -2079,26 +2024,28 @@ if (newRejectionCount > 1) {
           if (parsedLog.name === "ElectionCreated") {
             console.log("ElectionCreated event detected:", parsedLog.args);
 
+            // Extract the election ID from the event args if available
+            const electionId = parsedLog.args.electionId
+              ? parsedLog.args.electionId.toString()
+              : "";
+
             // Add a local notification to the admin
             this.addLocalNotification({
-                //   title: "New Election Created",
-                //   message: `Election "${name}" has been created`,
-                //   details: `Start: ${new Date(
-                //     startTime.toNumber() * 1000
-                //   ).toLocaleString()}, End: ${new Date(
-                //     endTime.toNumber() * 1000
-                //   ).toLocaleString()}`,
-                //   electionId: electionIdStr,
-                //   timestamp: new Date().toISOString(),
-                // });
               type: "election",
               title: "New Election Created",
               message: `Election "${electionData.name}" has been created`,
+              details: `Start: ${new Date(
+                startTime * 1000
+              ).toLocaleString()}, End: ${new Date(
+                endTime * 1000
+              ).toLocaleString()}`,
+              electionId: electionId,
               timestamp: new Date().toISOString(),
             });
           }
         } catch (error) {
           // Not an event we can parse, skip
+          console.log("Not an ElectionCreated event, skipping:", error);
         }
       }
 
@@ -2119,21 +2066,6 @@ if (newRejectionCount > 1) {
         gasLimit: 500000,
       });
       await tx.wait();
-
-      // Get election details to use in notification
-      const details = await this.getElectionDetails(electionId);
-
-      // Add a notification for the admin
-      
-      // this.addLocalNotification({
-      //   type: "admin",
-      //   title: "Election Started",
-      //   message: `You've successfully started election: "${details.name}"`,
-      //   details: "Voters can now cast their votes in this election.",
-      //   electionId: electionId,
-      //   timestamp: new Date().toISOString(),
-      // });
-
       return true;
     } catch (error) {
       console.error("Error starting election:", error);
@@ -2151,21 +2083,6 @@ if (newRejectionCount > 1) {
         gasLimit: 500000,
       });
       await tx.wait();
-
-      // Get election details to use in notification
-      const details = await this.getElectionDetails(electionId);
-
-      // Add a notification for the admin
-
-      // this.addLocalNotification({
-      //   type: "admin",
-      //   title: "Election Ended",
-      //   message: `You've successfully ended election: "${details.name}"`,
-      //   details: "The results are now available.",
-      //   electionId: electionId,
-      //   timestamp: new Date().toISOString(),
-      // });
-
       return true;
     } catch (error) {
       console.error("Error ending election:", error);
