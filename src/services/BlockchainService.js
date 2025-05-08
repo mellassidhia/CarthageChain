@@ -952,7 +952,7 @@ class BlockchainService {
 
           processedEvents.add(eventId);
           this.updateProcessedEvents(processedEvents);
-          
+
           // Also trigger general event
           this.triggerEvent(EventTypes.NewElection, {
             electionId: electionIdStr,
@@ -2339,11 +2339,8 @@ class BlockchainService {
 
         // For each ongoing election, end it first
         for (const electionId of electionIds) {
-          const details = await this.votingContract.getElectionDetails(
-            electionId
-          );
-          if (details[4] === 1) {
-            // if state is ONGOING (1)
+          const details = await this.votingContract.getElectionDetails(electionId);
+          if (details[4] === 1) { // if state is ONGOING (1)
             const tx = await this.votingContract.endElection(electionId, {
               gasLimit: 500000,
             });
@@ -2360,65 +2357,39 @@ class BlockchainService {
         }
       } catch (e) {
         console.error("Error resetting voting contract:", e);
-        // Continue with other resets even if this one fails
       }
 
-      // 2. Reset all roles in the election contract using the function that now also resets statuses
+      // 2. Reset all roles in the election contract
       try {
         const tx = await this.electionContract.resetAllRoles({
           gasLimit: 500000,
         });
         await tx.wait();
         console.log("Successfully reset all user roles and statuses");
-
-        // Add notification for successful system reset
-        this.addLocalNotification({
-          type: "admin",
-          title: "System Reset Complete",
-          message: "You have successfully reset the entire voting system",
-          details: "All user roles, elections, and votes have been reset",
-          timestamp: new Date().toISOString(),
-        });
-
-        // Also clear notification tracking data for all users
-        this.clearAllNotificationTracking();
-
-        // Force window reload to reset UI state completely
-        // This is essential to clear any cached data in the frontend
-        if (typeof window !== "undefined") {
-          // Only use in browser environment
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000); // Give a small delay for transaction to be fully processed
-        }
       } catch (e) {
         console.error("Error resetting user roles:", e);
-
+        
         // Fallback approach if resetAllRoles fails
         try {
           console.log("Trying alternative reset approach...");
-
+          
           // Get all voters and candidates
           const allVoters = await this.electionContract.getAllVoters();
           const allCandidates = await this.electionContract.getAllCandidates();
 
-          // Use batch reset if available and if there are many addresses
+          // Use batch reset if available
           if (typeof this.electionContract.batchResetUserRoles === "function") {
             if (allVoters.length > 0) {
-              const txVoters = await this.electionContract.batchResetUserRoles(
-                allVoters,
-                {
-                  gasLimit: 500000,
-                }
-              );
+              const txVoters = await this.electionContract.batchResetUserRoles(allVoters, {
+                gasLimit: 500000,
+              });
               await txVoters.wait();
             }
 
             if (allCandidates.length > 0) {
-              const txCandidates =
-                await this.electionContract.batchResetUserRoles(allCandidates, {
-                  gasLimit: 500000,
-                });
+              const txCandidates = await this.electionContract.batchResetUserRoles(allCandidates, {
+                gasLimit: 500000,
+              });
               await txCandidates.wait();
             }
           } else {
@@ -2440,6 +2411,30 @@ class BlockchainService {
         } catch (fallbackError) {
           console.error("Fallback reset approach also failed:", fallbackError);
         }
+      }
+
+      // 3. Clear all localStorage data
+      if (typeof window !== "undefined") {
+        localStorage.clear();
+      }
+
+      // 4. Clear notification tracking system
+      this.clearAllNotificationTracking();
+
+      // 5. Add final reset notification (this will be the only notification in the system)
+      this.addLocalNotification({
+        type: "admin",
+        title: "System Reset Complete",
+        message: "Successful reset to the entire voting system",
+        details: "All user roles, elections, and votes have been reset",
+        timestamp: new Date().toISOString(),
+      });
+
+      // 6. Force window reload after a short delay
+      if (typeof window !== "undefined") {
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       }
 
       return true;
@@ -2471,7 +2466,9 @@ class BlockchainService {
           key.includes("notification") ||
           key.includes("lastVoterStatus") ||
           key.includes("lastCandidateStatus") ||
-          key.includes("processedEvents")
+          key.includes("processedEvents") ||
+          key.includes("notifiedElections") || 
+          key.includes("lastElectionCheck")     
         ) {
           keys.push(key);
         }
