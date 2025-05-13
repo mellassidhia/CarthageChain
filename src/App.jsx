@@ -5,6 +5,7 @@ import FAQ from './pages/FAQ/FAQ';
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import ScrollUpButton from "./components/ScrollUpButton/ScrollUpButton";
+import ChatBot from "./components/ChatBot/ChatBot";
 import About from './pages/About/About';
 import Security from './pages/Security/Security';
 import Policy from './pages/Policy/Policy';
@@ -164,6 +165,7 @@ const App = () => {
         {/* Footer */}
         <Footer />
         <ScrollUpButton />
+        <ChatBot />
       </div>
     </Router>
   );

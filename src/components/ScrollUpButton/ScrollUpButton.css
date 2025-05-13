@@ -1,6 +1,6 @@
 .scroll-up-button {
   position: fixed;
-  bottom: 40px;
+  bottom: 95px;
   right: 20px; 
   z-index: 1000;
 }

@@ -12,8 +12,11 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@google/genai": "^0.13.0",
+    "@google/generative-ai": "^0.24.1",
     "@metamask/detect-provider": "^2.0.0",
     "axios": "^1.8.4",
+    "dompurify": "^3.2.5",
     "ethers": "^5.7.2",
     "react": "^19.0.0",
     "react-datetime-picker": "^6.0.1",
