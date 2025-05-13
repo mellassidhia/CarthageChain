@@ -6,8 +6,8 @@ import electionContractABI from "../contracts/electionContractABI.json";
 import votingContractABI from "../contracts/votingContractABI.json";
 
 // Contract addresses
-const electionContractAddress = "0xc39f6b7ba419ca21a6e15271c21bc40a9017cf91";
-const votingContractAddress = "0x2510f1a18f1bb40a83409d24647533e3c84c87f9";
+const electionContractAddress = "0xfe357dcaa156ae73a7d85789968f2de17d36daae";
+const votingContractAddress = "0xa23ac7c1e2f77675c9fb5f17cc1e22e153136af7";
 
 // Pinata Configuration from environment variables
 const PINATA_API_KEY = import.meta.env.VITE_PINATA_API_KEY;

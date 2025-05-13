@@ -4,7 +4,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import DecentralizedForumABI from '../contracts/DecentralizedForum.json';
 
 // Replace with deployed contract address every time you deploy  the contract
-const CONTRACT_ADDRESS = '0x62b17252e6e2bb94e7b468b1bb2e83a77ba1f382'; 
+const CONTRACT_ADDRESS = '0x300ee20ed2a0c0933a94852ff578d8a28c5a6e87'; 
 
 export const connectWallet = async () => {
   try {

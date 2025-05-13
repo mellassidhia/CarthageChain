@@ -4,7 +4,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import RatingSystemABI from '../contracts/RatingSystem.json';
 
 // Replace with your deployed contract address
-const RATING_CONTRACT_ADDRESS = '0x626411966496c53f074b1371743c283555ca31ac';
+const RATING_CONTRACT_ADDRESS = '0x6958bd05aa9e77fb538a7d68495a9086a7153193';
 
 export const connectWallet = async () => {
   try {
