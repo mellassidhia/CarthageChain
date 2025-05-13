@@ -4,6 +4,8 @@ import './OngoingElections.css';
 import { assets } from '../../assets/assets';
 import BlockchainService, { VoterStatusEnum, CandidateStatusEnum, RoleEnum, ElectionStateEnum } from '../../services/BlockchainService';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const OngoingElections = () => {
   const [canVote, setCanVote] = useState(false);
@@ -228,6 +230,17 @@ const OngoingElections = () => {
       });
       
       setVoteMessage('Your vote has been cast successfully!');
+      
+      // Show toast notification
+      toast.success(`Vote cast successfully for ${selectedCandidate.fullName}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      
       setSelectedCandidate(null);
       
     } catch (error) {
@@ -314,6 +327,7 @@ const OngoingElections = () => {
 
   return (
     <div className="ongoing-elections-container">
+      <ToastContainer />
       <div className="elections-header">
         <img src={assets.logo} alt="CarthageChain Logo" className="elections-logo" />
         <h1>Ongoing Elections</h1>

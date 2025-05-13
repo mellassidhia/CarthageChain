@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { createRating, deleteRating, getAllRatings, getAverageRating, isContractOwner } from '../../utils/ratingBlockchain';
 import './RateUs.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function RateUs() {
   const [ratings, setRatings] = useState([]);
@@ -16,13 +18,6 @@ function RateUs() {
   const [account, setAccount] = useState(null);
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
-  const [notification, setNotification] = useState(null);
-
-  // Function to show notifications with auto-dismiss
-  const showNotification = (message, type = 'success') => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification(null), 3000);
-  };
 
   // Initialize ethers provider and signer when connected
   useEffect(() => {
@@ -41,6 +36,7 @@ function RateUs() {
         } catch (error) {
           console.error('Error initializing ethers:', error);
           setError('Failed to connect to blockchain. Please check your wallet connection.');
+          toast.error('Failed to connect to blockchain. Please check your wallet connection.');
         }
       }
     };
@@ -73,6 +69,7 @@ function RateUs() {
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('Failed to load ratings. Please try again later.');
+        toast.error('Failed to load ratings. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -85,17 +82,17 @@ function RateUs() {
     e.preventDefault();
     
     if (!signer) {
-      showNotification('Please connect your wallet first', 'error');
+      toast.error('Please connect your wallet first');
       return;
     }
     
     if (!selectedRating) {
-      showNotification('Please select a rating', 'error');
+      toast.warning('Please select a rating');
       return;
     }
     
     if (!comment.trim()) {
-      showNotification('Please enter a comment', 'error');
+      toast.warning('Please enter a comment');
       return;
     }
     
@@ -114,10 +111,10 @@ function RateUs() {
       const avg = await getAverageRating(provider);
       setAverageRating(avg);
       
-      showNotification('Rating posted successfully!');
+      toast.success('Rating posted successfully!');
     } catch (error) {
       console.error('Error submitting rating:', error);
-      showNotification('Failed to submit rating. Please try again.', 'error');
+      toast.error('Failed to submit rating. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -138,10 +135,10 @@ function RateUs() {
       const avg = await getAverageRating(provider);
       setAverageRating(avg);
       
-      showNotification('Rating deleted successfully!');
+      toast.success('Rating deleted successfully!');
     } catch (error) {
       console.error('Error deleting rating:', error);
-      showNotification('Failed to delete rating. Please try again.', 'error');
+      toast.error('Failed to delete rating. Please try again.');
     }
   };
 
@@ -149,6 +146,17 @@ function RateUs() {
   if (!account) {
     return (
       <div className="rateus-container">
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <h1>Rate Our Service</h1>
         
         <div className="rateus-wallet-message">
@@ -162,20 +170,57 @@ function RateUs() {
   }
 
   if (loading) {
-    return <div className="rateus-loading">Loading ratings...</div>;
+    return (
+      <div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <div className="rateus-loading">Loading ratings...</div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="rateus-error">{error}</div>;
+    return (
+      <div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <div className="rateus-error">{error}</div>
+      </div>
+    );
   }
 
   return (
     <div className="rateus-container">
-      {notification && (
-        <div className={`rateus-notification rateus-${notification.type}`}>
-          {notification.message}
-        </div>
-      )}
+      {/* Add ToastContainer to render notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       
       <h1>Rate Our Service</h1>
       

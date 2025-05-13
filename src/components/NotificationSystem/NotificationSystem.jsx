@@ -137,7 +137,7 @@ const NotificationSystem = () => {
   // Main setup for blockchain event listeners
   useEffect(() => {
     // Handle new notifications
-    const handleNewNotification = ({ notification, unreadCount }) => {
+    const handleNewNotification = ({ notification }) => {
       // Play sound for truly new notifications (not just updates)
       if (notification && !notification.read) {
         setNewNotificationAdded(true);

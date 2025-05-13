@@ -4,6 +4,8 @@ import './AdminPanel.css';
 import { assets } from '../../assets/assets';
 import BlockchainService, { VoterStatusEnum, CandidateStatusEnum } from '../../services/BlockchainService';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdminPanel = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -172,13 +174,16 @@ const AdminPanel = () => {
         );
         
         // Add notification for admin
-        BlockchainService.addLocalNotification({
-          type: 'admin',
-          title: 'Candidate Approval',
-          message: `You have approved candidate: ${selectedUser.fullName}`,
-          details: `Address: ${selectedUser.address.substring(0, 6)}...${selectedUser.address.slice(-4)}`,
-          timestamp: new Date().toISOString()
-        });
+        // BlockchainService.addLocalNotification({
+        //   type: 'admin',
+        //   title: 'Candidate Approval',
+        //   message: `You have approved candidate: ${selectedUser.fullName}`,
+        //   details: `Address: ${selectedUser.address.substring(0, 6)}...${selectedUser.address.slice(-4)}`,
+        //   timestamp: new Date().toISOString()
+        // });
+        
+        // Show toast notification
+        toast.success(`Candidate ${selectedUser.fullName} has been approved successfully!`);
       } else {
         await BlockchainService.updateVoterStatus(
           selectedUser.address, 
@@ -187,13 +192,16 @@ const AdminPanel = () => {
         );
         
         // Add notification for admin
-        BlockchainService.addLocalNotification({
-          type: 'admin',
-          title: 'Voter Approval',
-          message: `You have approved voter: ${selectedUser.fullName}`,
-          details: `Address: ${selectedUser.address.substring(0, 6)}...${selectedUser.address.slice(-4)}`,
-          timestamp: new Date().toISOString()
-        });
+        // BlockchainService.addLocalNotification({
+        //   type: 'admin',
+        //   title: 'Voter Approval',
+        //   message: `You have approved voter: ${selectedUser.fullName}`,
+        //   details: `Address: ${selectedUser.address.substring(0, 6)}...${selectedUser.address.slice(-4)}`,
+        //   timestamp: new Date().toISOString()
+        // });
+        
+        // Show toast notification
+        toast.success(`Voter ${selectedUser.fullName} has been approved successfully!`);
       }
       
       // Refresh data
@@ -216,6 +224,9 @@ const AdminPanel = () => {
         details: `Error: ${error.message}`,
         timestamp: new Date().toISOString()
       });
+      
+      // Show error toast notification
+      toast.error(`Failed to approve ${selectedUser.userType}: ${error.message}`);
     } finally {
       setIsProcessing(false);
     }
@@ -234,13 +245,16 @@ const AdminPanel = () => {
         );
         
         // Add notification for admin
-        BlockchainService.addLocalNotification({
-          type: 'admin',
-          title: 'Candidate Rejection',
-          message: `You have rejected candidate: ${selectedUser.fullName}`,
-          details: `Reason: ${rejectReason}`,
-          timestamp: new Date().toISOString()
-        });
+        // BlockchainService.addLocalNotification({
+        //   type: 'admin',
+        //   title: 'Candidate Rejection',
+        //   message: `You have rejected candidate: ${selectedUser.fullName}`,
+        //   details: `Reason: ${rejectReason}`,
+        //   timestamp: new Date().toISOString()
+        // });
+        
+        // Show toast notification
+        toast.info(`Candidate ${selectedUser.fullName} has been rejected.`);
       } else {
         await BlockchainService.updateVoterStatus(
           selectedUser.address, 
@@ -249,13 +263,16 @@ const AdminPanel = () => {
         );
         
         // Add notification for admin
-        BlockchainService.addLocalNotification({
-          type: 'admin',
-          title: 'Voter Rejection',
-          message: `You have rejected voter: ${selectedUser.fullName}`,
-          details: `Reason: ${rejectReason}`,
-          timestamp: new Date().toISOString()
-        });
+        // BlockchainService.addLocalNotification({
+        //   type: 'admin',
+        //   title: 'Voter Rejection',
+        //   message: `You have rejected voter: ${selectedUser.fullName}`,
+        //   details: `Reason: ${rejectReason}`,
+        //   timestamp: new Date().toISOString()
+        // });
+        
+        // Show toast notification
+        toast.info(`Voter ${selectedUser.fullName} has been rejected.`);
       }
       
       // Refresh data
@@ -278,6 +295,9 @@ const AdminPanel = () => {
         details: `Error: ${error.message}`,
         timestamp: new Date().toISOString()
       });
+      
+      // Show error toast notification
+      toast.error(`Failed to reject ${selectedUser.userType}: ${error.message}`);
     } finally {
       setIsProcessing(false);
     }
@@ -485,6 +505,18 @@ const AdminPanel = () => {
 
   return (
     <div className="admin-container">
+      <ToastContainer 
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      
       <div className="admin-header">
         <img src={assets.logo} alt="CarthageChain Logo" className="admin-logo" />
         <h1>CarthageChain Admin Panel</h1>

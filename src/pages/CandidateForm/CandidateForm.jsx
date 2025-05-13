@@ -326,8 +326,8 @@ const CandidateForm = () => {
           <div className={`candidate-submission-status ${submitStatus.type}`}>
             <p>{submitStatus.message}</p>
             {submitStatus.type === 'success' && (
-              <button onClick={() => navigate('/profile')} className="candidate-return-home-button">
-                View Your Profile
+              <button onClick={() => navigate('/')} className="candidate-return-home-button">
+                Return to Home Page
               </button>
             )}
             {submitStatus.type === 'error' && (

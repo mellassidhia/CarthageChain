@@ -6,8 +6,8 @@ import electionContractABI from "../contracts/electionContractABI.json";
 import votingContractABI from "../contracts/votingContractABI.json";
 
 // Contract addresses
-const electionContractAddress = "0xfe357dcaa156ae73a7d85789968f2de17d36daae";
-const votingContractAddress = "0xa23ac7c1e2f77675c9fb5f17cc1e22e153136af7";
+const electionContractAddress = "0xa88c320772df205ddf49fc64c40f6ed159fbc8c0";
+const votingContractAddress = "0xf4dd23ddbe648f2234ab64f4195b8d32b8c78c13";
 
 // Pinata Configuration from environment variables
 const PINATA_API_KEY = import.meta.env.VITE_PINATA_API_KEY;
@@ -463,11 +463,11 @@ class NotificationManager {
   }
 
   // Reset notification tracking for the current user
-   // Reset notification tracking for the current user
-   clearNotificationTracking() {
+  // Reset notification tracking for the current user
+  clearNotificationTracking() {
     try {
-      const message = "Notification tracking has been reset.";
-      
+      const message = "The System has been reset by the administrator.";
+
       // Clear all localStorage data
       localStorage.clear();
 
@@ -905,7 +905,7 @@ class BlockchainService {
       //Listen for voter status updates
       this.electionContract.on(
         "VoterStatusUpdated",
-        async (userAddress, status, message) => {
+        async (userAddress, status) => {
           const eventId = `voter_${userAddress}_${status}_${Date.now()}`;
           // Skip if already processed
           if (processedEvents.has(eventId)) return;
@@ -917,7 +917,7 @@ class BlockchainService {
       //Listen for candidate status updates
       this.electionContract.on(
         "CandidateStatusUpdated",
-        async (userAddress, status, message) => {
+        async (userAddress, status) => {
           const eventId = `candidate_${userAddress}_${status}_${Date.now()}`;
 
           // Skip if already processed
@@ -969,18 +969,6 @@ class BlockchainService {
         // Get election details and notify
         this.getElectionDetails(electionIdStr)
           .then((details) => {
-            //Create notification
-            this.addLocalNotification({
-              type: "election",
-              title: "Election Started",
-              message: `Election "${details.name}" has started`,
-              details: `Voters can now cast their votes until ${new Date(
-                details.endTime
-              ).toLocaleString()}`,
-              electionId: electionIdStr,
-              timestamp: new Date().toISOString(),
-            });
-
             // Also trigger general event
             this.triggerEvent(EventTypes.NewElection, {
               electionId: electionIdStr,
@@ -1014,16 +1002,6 @@ class BlockchainService {
         // Get election details and notify
         this.getElectionDetails(electionIdStr)
           .then((details) => {
-            // Create notification for admin
-            this.addLocalNotification({
-              type: "election",
-              title: "Election Ended",
-              message: `Election "${details.name}" has ended`,
-              details: "The results are now available for viewing",
-              electionId: electionIdStr,
-              timestamp: new Date().toISOString(),
-            });
-
             // Create notification for all eligible voters
             // This will send notifications to all approved voters
             this.sendElectionEndNotificationToEligibleVoters(
@@ -1045,66 +1023,7 @@ class BlockchainService {
             )
           );
       });
-
-      // Listen for vote cast events
-      this.votingContract.on(
-        "VoteCast",
-        async (electionId, voter, candidate) => {
-          const currentUser = await this.signer.getAddress();
-          const electionIdStr = electionId.toString();
-          const eventId = `vote_${electionIdStr}_${voter.toLowerCase()}`;
-
-          // Skip if already processed
-          if (processedEvents.has(eventId)) return;
-          processedEvents.add(eventId);
-          this.updateProcessedEvents(processedEvents);
-
-          // Only notify if the event is for the current user
-          if (voter.toLowerCase() === currentUser.toLowerCase()) {
-            // Get election details
-            try {
-              const electionDetails = await this.getElectionDetails(
-                electionIdStr
-              );
-              const candidateDetails = electionDetails.candidates.find(
-                (c) => c.address.toLowerCase() === candidate.toLowerCase()
-              );
-              const candidateName = candidateDetails
-                ? candidateDetails.fullName
-                : "Selected candidate";
-
-              // Create notification
-              this.addLocalNotification({
-                type: "vote",
-                title: "Vote Cast Successfully",
-                message: `You have voted in the election "${electionDetails.name}"`,
-                details: `You voted for ${candidateName}`,
-                electionId: electionIdStr,
-                timestamp: new Date().toISOString(),
-              });
-            } catch (error) {
-              console.error("Error creating vote notification:", error);
-
-              // Fallback notification if we can't get details
-              this.addLocalNotification({
-                type: "vote",
-                title: "Vote Cast Successfully",
-                message: `Your vote has been recorded`,
-                details: `Election ID: ${electionIdStr}`,
-                electionId: electionIdStr,
-                timestamp: new Date().toISOString(),
-              });
-            }
-
-            // Trigger general event
-            this.triggerEvent(EventTypes.VoteCast, {
-              electionId: electionIdStr,
-              candidate,
-              timestamp: new Date(),
-            });
-          }
-        }
-      );
+      
     } catch (error) {
       console.error("Error setting up contract event listeners:", error);
     }
@@ -1275,31 +1194,6 @@ class BlockchainService {
       const tx = await this.electionContract.registerVoter(voterParams);
 
       await tx.wait();
-
-      // Get rejection count for notification message
-      let rejectionCount = 0;
-      if (wasRejected) {
-        rejectionCount = await this.getRejectionCountForVoter(userAddress);
-      }
-
-      // Create a notification for the registration
-      let message = "";
-      if (wasRejected) {
-        message = `Your voter registration has been resubmitted (Attempt ${rejectionCount}) and is pending approval.`;
-      } else {
-        message =
-          "Your voter registration has been submitted and is pending approval.";
-      }
-
-      this.addLocalNotification({
-        type: "status",
-        title: wasRejected
-          ? "Voter Registration Resubmitted"
-          : "Voter Registration Submitted",
-        message: message,
-        details: "You will be notified when an admin reviews your application.",
-        timestamp: new Date().toISOString(),
-      });
 
       // Create an admin notification for resubmissions
       this.notifyAdminsAboutRegistration(
@@ -1478,31 +1372,6 @@ class BlockchainService {
       );
 
       await tx.wait();
-
-      // Get rejection count for notification message
-      let rejectionCount = 0;
-      if (wasRejected) {
-        rejectionCount = await this.getRejectionCountForCandidate(userAddress);
-      }
-
-      // Create a notification for the registration
-      let message = "";
-      if (wasRejected) {
-        message = `Your candidate registration has been resubmitted (Attempt ${rejectionCount}) and is pending approval.`;
-      } else {
-        message =
-          "Your candidate registration has been submitted and is pending approval.";
-      }
-
-      this.addLocalNotification({
-        type: "status",
-        title: wasRejected
-          ? "Candidate Registration Resubmitted"
-          : "Candidate Registration Submitted",
-        message: message,
-        details: "You will be notified when an admin reviews your application.",
-        timestamp: new Date().toISOString(),
-      });
 
       // Create an admin notification for resubmissions
       this.notifyAdminsAboutRegistration(
@@ -1787,28 +1656,12 @@ class BlockchainService {
       );
       const receipt = await tx.wait();
 
-      // Get voter details for notification
-      const voterDetails = await this.getVoterDetails(voterAddress);
-
       // Handle rejection count tracking
       if (status === VoterStatusEnum.Rejected) {
         // Increment rejection count
         const newRejectionCount = await this.incrementRejectionCountForVoter(
           voterAddress
         );
-
-        // Create admin notification about the action including rejection count
-        // Only show admin notification if this is not the first rejection
-        if (newRejectionCount > 1) {
-          this.addLocalNotification({
-            type: "admin",
-            title: "Voter Rejected",
-            message: `You've rejected voter: ${voterDetails.fullName} (Rejection #${newRejectionCount})`,
-            details: `Reason: ${message}`,
-            timestamp: new Date().toISOString(),
-          });
-        }
-
         // Create a notification for the specific voter with rejection count
         this.addNotificationForUser(voterAddress, {
           type: "status",
@@ -1860,25 +1713,11 @@ class BlockchainService {
       );
       const receipt = await tx.wait();
 
-      // Get candidate details for notification
-      const candidateDetails = await this.getCandidateDetails(candidateAddress);
-
       // Handle rejection count tracking
       if (status === CandidateStatusEnum.Rejected) {
         // Increment rejection count
         const newRejectionCount =
           await this.incrementRejectionCountForCandidate(candidateAddress);
-
-        // Create admin notification about the action including rejection count
-        if (newRejectionCount > 1) {
-          this.addLocalNotification({
-            type: "admin",
-            title: "Candidate Rejected",
-            message: `You've rejected candidate: ${candidateDetails.fullName} (Rejection #${newRejectionCount})`,
-            details: `Reason: ${message}`,
-            timestamp: new Date().toISOString(),
-          });
-        }
 
         // Create a notification for the specific candidate with rejection count
         this.addNotificationForUser(candidateAddress, {
@@ -1997,25 +1836,6 @@ class BlockchainService {
           const parsedLog = this.votingContract.interface.parseLog(log);
           if (parsedLog.name === "ElectionCreated") {
             console.log("ElectionCreated event detected:", parsedLog.args);
-
-            // Extract the election ID from the event args if available
-            const electionId = parsedLog.args.electionId
-              ? parsedLog.args.electionId.toString()
-              : "";
-
-            // Add a local notification to the admin
-            this.addLocalNotification({
-              type: "election",
-              title: "New Election Created",
-              message: `Election "${electionData.name}" has been created`,
-              details: `Start: ${new Date(
-                startTime * 1000
-              ).toLocaleString()}, End: ${new Date(
-                endTime * 1000
-              ).toLocaleString()}`,
-              electionId: electionId,
-              timestamp: new Date().toISOString(),
-            });
           }
         } catch (error) {
           // Not an event we can parse, skip
@@ -2255,22 +2075,8 @@ class BlockchainService {
         `User status: isApprovedVoter=${isApprovedVoter}, isApprovedCandidate=${isApprovedCandidate}`
       );
 
-      // Get election details for the notification
-      const electionDetails = await this.getElectionDetails(electionId);
-      const candidateName = electionDetails.candidates[candidateIndex].fullName;
-
       const tx = await this.votingContract.castVote(electionId, candidateIndex);
       await tx.wait();
-
-      // Add notification for successful vote
-      this.addLocalNotification({
-        type: "vote",
-        title: "Vote Cast Successfully",
-        message: `You have voted in the election "${electionDetails.name}"`,
-        details: `You voted for ${candidateName}`,
-        electionId: electionId,
-        timestamp: new Date().toISOString(),
-      });
 
       return true;
     } catch (error) {

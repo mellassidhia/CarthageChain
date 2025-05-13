@@ -321,8 +321,8 @@ const VoterForm = () => {
           <div className={`voter-submission-status ${submitStatus.type}`}>
             <p>{submitStatus.message}</p>
             {submitStatus.type === 'success' && (
-              <button onClick={() => navigate('/profile')} className="voter-return-home-button">
-                View Your Profile
+              <button onClick={() => navigate('/')} className="voter-return-home-button">
+                Return to Home Page
               </button>
             )}
             {submitStatus.type === 'error' && (
