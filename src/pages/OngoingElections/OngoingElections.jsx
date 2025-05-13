@@ -285,40 +285,15 @@ const OngoingElections = () => {
         <p>You do not have permission to vote in elections.</p>
         {voterCheckError && <p className="error-message">{voterCheckError}</p>}
         
-        <div className="user-status-info">
-          <h3>Your Current Status:</h3>
-          <p><strong>Account:</strong> {walletAddress.substring(0, 6)}...{walletAddress.slice(-4)}</p>
-          
-          {userInfo && userInfo.isVoter && (
-            <div className="voter-status">
-              <p><strong>Voter Status:</strong> {
-                userInfo.voterStatus === VoterStatusEnum.Pending ? "Pending" :
-                userInfo.voterStatus === VoterStatusEnum.Approved ? "Approved" :
-                userInfo.voterStatus === VoterStatusEnum.Rejected ? "Rejected" :
-                `Unknown (${userInfo.voterStatus})`
-              }</p>
-            </div>
-          )}
-          
-          {userInfo && userInfo.isCandidate && (
-            <div className="candidate-status">
-              <p><strong>Candidate Status:</strong> {
-                userInfo.candidateStatus === CandidateStatusEnum.Pending ? "Pending" :
-                userInfo.candidateStatus === CandidateStatusEnum.Approved ? "Approved" :
-                userInfo.candidateStatus === CandidateStatusEnum.Rejected ? "Rejected" :
-                `Unknown (${userInfo.candidateStatus})`
-              }</p>
-            </div>
-          )}
-          
-          {(!userInfo || (!userInfo.isVoter && !userInfo.isCandidate)) && (
-            <p><strong>Status:</strong> Not registered as voter or candidate</p>
-          )}
-        </div>
-        
         <div className="action-buttons">
-          <button onClick={() => navigate('/')} className="back-button">
+          <button onClick={() => navigate('/')} className="ongoing-back-button">
             Back to Home
+          </button>
+          <button onClick={() => navigate('/voter-form')} className="register-voter-button">
+            Register as Voter
+          </button>
+          <button onClick={() => navigate('/candidate-form')} className="register-candidate-button">
+            Register as Candidate
           </button>
         </div>
       </div>
