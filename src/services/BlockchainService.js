@@ -2081,16 +2081,6 @@ class BlockchainService {
       return true;
     } catch (error) {
       console.error("Error casting vote:", error);
-
-      // Add error notification
-      this.addLocalNotification({
-        type: "error",
-        title: "Vote Cast Failed",
-        message: "There was an error casting your vote",
-        details: error.message,
-        timestamp: new Date().toISOString(),
-      });
-
       throw error;
     }
   }

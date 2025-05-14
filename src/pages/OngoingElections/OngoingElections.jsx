@@ -22,6 +22,7 @@ const OngoingElections = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   // Initialize blockchain service on component mount
@@ -37,7 +38,7 @@ const OngoingElections = () => {
     
     initBlockchain();
   }, []);
-
+  
   useEffect(() => {
     const checkVotingAccess = async () => {
       setIsLoading(true);
@@ -65,17 +66,25 @@ const OngoingElections = () => {
           setWalletAddress(actualAccount);
         }
         
+        // Check if user is admin (contract owner)
+        const isAdminUser = await BlockchainService.isAdmin();
+        setIsAdmin(isAdminUser);
+        
         // Get comprehensive user info including voter and candidate details
         const comprehensiveInfo = await BlockchainService.getComprehensiveUserInfo(actualAccount);
         setUserInfo(comprehensiveInfo);
         
-        // Set voting ability based on comprehensive info
-        setCanVote(comprehensiveInfo.canVote);
+        // Set voting ability based on comprehensive info and admin status
+        // Admins cannot vote, even if they are approved voters or candidates
+        setCanVote(comprehensiveInfo.canVote && !isAdminUser);
         
-        // If user can vote, load ongoing elections
-        if (comprehensiveInfo.canVote) {
-          await loadOngoingElections(actualAccount);
-        } else {
+        // Load elections for both voters and admins
+        await loadOngoingElections(actualAccount);
+        
+        // Set appropriate messages
+        if (isAdminUser) {
+          setVoterCheckError("As an administrator, you can view elections but cannot vote.");
+        } else if (!comprehensiveInfo.canVote) {
           // Set detailed error message based on user info
           if (comprehensiveInfo.isVoter && comprehensiveInfo.voterStatus === VoterStatusEnum.Pending) {
             setVoterCheckError("Your voter registration is pending approval. You cannot vote until approved.");
@@ -167,6 +176,18 @@ const OngoingElections = () => {
     }
   };
 
+  const loadElectionStats = async (electionId) => {
+    try {
+      // This would be a new method in BlockchainService to get election statistics
+      // For example, total votes, votes per candidate, etc.
+      const stats = await BlockchainService.getElectionStats(electionId);
+      return stats;
+    } catch (error) {
+      console.error('Error loading election statistics:', error);
+      return null;
+    }
+  };
+
   const refreshData = async () => {
     setIsLoading(true);
     try {
@@ -178,13 +199,15 @@ const OngoingElections = () => {
       const comprehensiveInfo = await BlockchainService.getComprehensiveUserInfo(account);
       setUserInfo(comprehensiveInfo);
       
-      // Set voting ability based on comprehensive info
-      setCanVote(comprehensiveInfo.canVote);
+      // Check if user is admin (contract owner)
+      const isAdminUser = await BlockchainService.isAdmin();
+      setIsAdmin(isAdminUser);
       
-      // If user can vote, load ongoing elections
-      if (comprehensiveInfo.canVote) {
-        await loadOngoingElections(account);
-      }
+      // Set voting ability based on comprehensive info and admin status
+      setCanVote(comprehensiveInfo.canVote && !isAdminUser);
+      
+      // Load elections regardless of user type (admin or voter)
+      await loadOngoingElections(account);
     } catch (error) {
       // Error handling without logging
     } finally {
@@ -244,10 +267,16 @@ const OngoingElections = () => {
       setSelectedCandidate(null);
       
     } catch (error) {
-      if (error.code === 'ACTION_REJECTED') {
-        setVoteMessage('You cancelled the voting transaction in your wallet.');
-      } else if (error.message.includes("user rejected transaction")) {
-        setVoteMessage('You cancelled the voting transaction in your wallet.');
+      if (error.code === 'ACTION_REJECTED' || error.message.includes("user rejected transaction")) {
+        // Show toast notification for transaction cancellation instead of setting message
+        toast.info('You cancelled the voting transaction in your wallet.', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       } else if (error.message.includes("already voted")) {
         setVoteMessage('You have already voted in this election.');
         // Update the voting status
@@ -272,13 +301,31 @@ const OngoingElections = () => {
     setSearchTerm(e.target.value);
   };
 
-  // This handler has been replaced with direct navigation in the button onClick
+  const handleAdminAction = (action) => {
+    switch(action) {
+      case 'manage-elections':
+        navigate('/admin/manage-elections');
+        break;
+      case 'manage-voters':
+        navigate('/admin/manage-voters');
+        break;
+      case 'manage-candidates':
+        navigate('/admin/manage-candidates');
+        break;
+      case 'create-election':
+        navigate('/admin/create-election');
+        break;
+      default:
+        break;
+    }
+  };
 
   if (isLoading) {
     return <LoadingSpinner message="Loading ongoing elections..." />;
   }
 
-  if (!canVote) {
+  // Show access denied for non-admins who can't vote
+  if (!canVote && !isAdmin) {
     return (
       <div className="access-denied">
         <h2>Access Denied</h2>
@@ -318,9 +365,18 @@ const OngoingElections = () => {
           <p>Logged in as: <span className="voter-address">
             {walletAddress.substring(0, 6)}...{walletAddress.slice(-4)}
           </span></p>
+          {isAdmin && <span className="admin-badge">Administrator</span>}
         </div>
-
       </div>
+      
+      {/* Admin Actions Panel */}
+      {isAdmin && (
+        <div className="admin-notice">
+          <h3>Administrator Notice</h3>
+          <p>As an administrator, you can view election details but cannot cast votes.</p>
+          <p>This restriction ensures the integrity and fairness of the voting process.</p>
+        </div>
+      )}
       
       {/* Search Bar */}
       <div className="search-container">
@@ -392,6 +448,8 @@ const OngoingElections = () => {
                 <div className="voting-status">
                   {userVotingStatus[election.id] ? (
                     <span className="voted-badge">You have voted</span>
+                  ) : isAdmin ? (
+                    <span className="admin-view-badge">Admin View</span>
                   ) : (
                     <span className="not-voted-badge">Not voted yet</span>
                   )}
@@ -403,9 +461,55 @@ const OngoingElections = () => {
           <div className="voting-section">
             {selectedElection ? (
               <>
-                <h2>Vote in: {selectedElection.name}</h2>
+                <h2>{isAdmin ? "Viewing: " : "Vote in: "}{selectedElection.name}</h2>
                 
-                {userVotingStatus[selectedElection.id] ? (
+                {isAdmin ? (
+                  <div className="admin-election-view">
+                    <div className="admin-notice-banner">
+                      <h3>Administrator View Mode</h3>
+                      <p>You are viewing this election as an administrator. You cannot vote, but you can see all election details.</p>
+                    </div>
+                    
+                    <div className="election-details">
+                      <h3>Election Details</h3>
+                      <p><strong>Start Time:</strong> {formatDate(selectedElection.startTime)}</p>
+                      <p><strong>End Time:</strong> {formatDate(selectedElection.endTime)}</p>
+                      <p><strong>Status:</strong> {new Date() < new Date(selectedElection.endTime) ? "Active" : "Ended"}</p>
+                      <p><strong>Total Candidates:</strong> {selectedElection.candidates.length}</p>
+                    </div>
+                    <div className="admin-candidate-list">
+                      <h3>Candidates</h3>
+                      <div className="candidates-grid admin-grid">
+                        {selectedElection.candidates.map((candidate, index) => (
+                          <div key={index} className="candidate-card admin-candidate-card">
+                            {candidate.profileImageUrl && (
+                              <div className="candidate-image">
+                                <img src={candidate.profileImageUrl} alt={candidate.fullName} 
+                                     onError={(e) => {
+                                       e.target.onerror = null;
+                                       e.target.src = assets.userIcon || assets.placeholder;
+                                     }}
+                                />
+                              </div>
+                            )}
+                            
+                            <div className="candidate-info">
+                              <h3>{candidate.fullName}</h3>
+                              <p><strong>Party:</strong> {candidate.politicalParty}</p>
+                              <p><strong>Occupation:</strong> {candidate.occupation}</p>
+                              <p><strong>Address:</strong> {candidate.address.substring(0, 6)}...{candidate.address.slice(-4)}</p>
+                            </div>
+                            
+                            <div className="candidate-proposals">
+                              <h4>Key Proposals:</h4>
+                              <p>{candidate.keyProposals}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : userVotingStatus[selectedElection.id] ? (
                   <div className="already-voted-message">
                     <p>You have already voted in this election.</p>
                     <p>Thank you for participating in the democratic process!</p>
@@ -467,7 +571,7 @@ const OngoingElections = () => {
             ) : (
               <div className="select-election-prompt">
                 <h2>Select an Election</h2>
-                <p>Please select an election from the list on the left to view candidates and cast your vote.</p>
+                <p>Please select an election from the list on the left to {isAdmin ? "view details" : "view candidates and cast your vote"}.</p>
                 <img src={assets.electronic_vote} alt="Voting" className="vote-icon" />
               </div>
             )}
