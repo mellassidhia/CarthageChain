@@ -196,7 +196,7 @@ const VoterForm = () => {
       } else {
         setSubmitStatus({
           type: 'error',
-          message: 'Registration failed: ' + (error.message || 'Unknown error occurred')
+          message: 'Registration failed'
         });
       }
     } finally {

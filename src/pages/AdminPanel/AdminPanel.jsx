@@ -172,16 +172,7 @@ const AdminPanel = () => {
           CandidateStatusEnum.Approved,
           "Your application has been approved."
         );
-        
-        // Add notification for admin
-        // BlockchainService.addLocalNotification({
-        //   type: 'admin',
-        //   title: 'Candidate Approval',
-        //   message: `You have approved candidate: ${selectedUser.fullName}`,
-        //   details: `Address: ${selectedUser.address.substring(0, 6)}...${selectedUser.address.slice(-4)}`,
-        //   timestamp: new Date().toISOString()
-        // });
-        
+
         // Show toast notification
         toast.success(`Candidate ${selectedUser.fullName} has been approved successfully!`);
       } else {
@@ -190,16 +181,6 @@ const AdminPanel = () => {
           VoterStatusEnum.Approved,
           "Your application has been approved."
         );
-        
-        // Add notification for admin
-        // BlockchainService.addLocalNotification({
-        //   type: 'admin',
-        //   title: 'Voter Approval',
-        //   message: `You have approved voter: ${selectedUser.fullName}`,
-        //   details: `Address: ${selectedUser.address.substring(0, 6)}...${selectedUser.address.slice(-4)}`,
-        //   timestamp: new Date().toISOString()
-        // });
-        
         // Show toast notification
         toast.success(`Voter ${selectedUser.fullName} has been approved successfully!`);
       }
@@ -215,18 +196,8 @@ const AdminPanel = () => {
       
     } catch (error) {
       console.error("Error approving user:", error);
-      
-      // Add notification for failure
-      BlockchainService.addLocalNotification({
-        type: 'error',
-        title: 'Approval Failed',
-        message: `Failed to approve ${selectedUser.userType}: ${selectedUser.fullName}`,
-        details: `Error: ${error.message}`,
-        timestamp: new Date().toISOString()
-      });
-      
       // Show error toast notification
-      toast.error(`Failed to approve ${selectedUser.userType}: ${error.message}`);
+      toast.error(`Failed to approve ${selectedUser.userType}`);
     } finally {
       setIsProcessing(false);
     }
@@ -261,16 +232,6 @@ const AdminPanel = () => {
           VoterStatusEnum.Rejected,
           rejectReason
         );
-        
-        // Add notification for admin
-        // BlockchainService.addLocalNotification({
-        //   type: 'admin',
-        //   title: 'Voter Rejection',
-        //   message: `You have rejected voter: ${selectedUser.fullName}`,
-        //   details: `Reason: ${rejectReason}`,
-        //   timestamp: new Date().toISOString()
-        // });
-        
         // Show toast notification
         toast.info(`Voter ${selectedUser.fullName} has been rejected.`);
       }
@@ -286,18 +247,8 @@ const AdminPanel = () => {
       
     } catch (error) {
       console.error("Error rejecting user:", error);
-      
-      // Add notification for failure
-      BlockchainService.addLocalNotification({
-        type: 'error',
-        title: 'Rejection Failed',
-        message: `Failed to reject ${selectedUser.userType}: ${selectedUser.fullName}`,
-        details: `Error: ${error.message}`,
-        timestamp: new Date().toISOString()
-      });
-      
       // Show error toast notification
-      toast.error(`Failed to reject ${selectedUser.userType}: ${error.message}`);
+      toast.error(`Failed to reject ${selectedUser.userType}`);
     } finally {
       setIsProcessing(false);
     }

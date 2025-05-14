@@ -95,7 +95,12 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <div className="loading">Loading application...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Loading application...</div>
+      </div>
+    );
   }
 
   return (

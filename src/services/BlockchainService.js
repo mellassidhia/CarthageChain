@@ -6,8 +6,8 @@ import electionContractABI from "../contracts/electionContractABI.json";
 import votingContractABI from "../contracts/votingContractABI.json";
 
 // Contract addresses
-const electionContractAddress = "0xa88c320772df205ddf49fc64c40f6ed159fbc8c0";
-const votingContractAddress = "0xf4dd23ddbe648f2234ab64f4195b8d32b8c78c13";
+const electionContractAddress = "0x5ec54a2231e29ea9dae19ec1b70a66f884bcd30f";
+const votingContractAddress = "0x9f9886ceef3d0067201f74d611d5286e6bc2975c";
 
 // Pinata Configuration from environment variables
 const PINATA_API_KEY = import.meta.env.VITE_PINATA_API_KEY;
@@ -1654,6 +1654,7 @@ class BlockchainService {
         status,
         message
       );
+      // eslint-disable-next-line no-unused-vars
       const receipt = await tx.wait();
 
       // Handle rejection count tracking
@@ -1687,16 +1688,6 @@ class BlockchainService {
       return true;
     } catch (error) {
       console.error("Error updating voter status:", error);
-
-      // Notification for error
-      this.addLocalNotification({
-        type: "error",
-        title: "Voter Status Update Failed",
-        message: `Failed to update voter status`,
-        details: `Error: ${error.message}`,
-        timestamp: new Date().toISOString(),
-      });
-
       throw error;
     }
   }
@@ -1711,6 +1702,7 @@ class BlockchainService {
         status,
         message
       );
+      // eslint-disable-next-line no-unused-vars
       const receipt = await tx.wait();
 
       // Handle rejection count tracking
@@ -1744,16 +1736,6 @@ class BlockchainService {
       return true;
     } catch (error) {
       console.error("Error updating candidate status:", error);
-
-      // Notification for error
-      this.addLocalNotification({
-        type: "error",
-        title: "Candidate Status Update Failed",
-        message: `Failed to update candidate status`,
-        details: `Error: ${error.message}`,
-        timestamp: new Date().toISOString(),
-      });
-
       throw error;
     }
   }

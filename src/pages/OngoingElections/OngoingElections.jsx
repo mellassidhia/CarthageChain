@@ -31,6 +31,7 @@ const OngoingElections = () => {
       try {
         await BlockchainService.initialize();
       } catch (error) {
+        console.log(error);
         setVoterCheckError("Failed to connect to blockchain. Please make sure your wallet is connected.");
         setIsLoading(false);
       }
@@ -154,7 +155,8 @@ const OngoingElections = () => {
               const hasVoted = await BlockchainService.hasVotedInElection(election.id, userAddress);
               return { electionId: election.id, hasVoted };
             } catch (error) {
-              return { electionId: election.id, hasVoted: false }; // Default to not voted on error
+              console.log(error);
+              return { electionId: election.id, hasVoted: false }; 
             }
           });
           
@@ -172,19 +174,8 @@ const OngoingElections = () => {
         setOngoingElections([]);
       }
     } catch (error) {
+      console.log(error);
       setOngoingElections([]);
-    }
-  };
-
-  const loadElectionStats = async (electionId) => {
-    try {
-      // This would be a new method in BlockchainService to get election statistics
-      // For example, total votes, votes per candidate, etc.
-      const stats = await BlockchainService.getElectionStats(electionId);
-      return stats;
-    } catch (error) {
-      console.error('Error loading election statistics:', error);
-      return null;
     }
   };
 
@@ -209,7 +200,7 @@ const OngoingElections = () => {
       // Load elections regardless of user type (admin or voter)
       await loadOngoingElections(account);
     } catch (error) {
-      // Error handling without logging
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -299,25 +290,6 @@ const OngoingElections = () => {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-  };
-
-  const handleAdminAction = (action) => {
-    switch(action) {
-      case 'manage-elections':
-        navigate('/admin/manage-elections');
-        break;
-      case 'manage-voters':
-        navigate('/admin/manage-voters');
-        break;
-      case 'manage-candidates':
-        navigate('/admin/manage-candidates');
-        break;
-      case 'create-election':
-        navigate('/admin/create-election');
-        break;
-      default:
-        break;
-    }
   };
 
   if (isLoading) {
