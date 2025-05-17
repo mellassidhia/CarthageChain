@@ -20,6 +20,8 @@ interface ICarthageChainElection {
         string memory phone,
         CandidateStatus status
     );
+    function getAllVoters() external view returns (address[] memory);
+    function getAllCandidates() external view returns (address[] memory);
 }
 
 contract CarthageChainVoting {
@@ -49,7 +51,14 @@ contract CarthageChainVoting {
     
     uint public currentElectionId;
     mapping(uint => Election) public elections;
-    mapping(uint => mapping(address => bool)) public hasVoted;
+    
+    // Add a version counter for vote tracking
+    uint public votingVersion;
+    
+    // Change hasVoted to include the version
+    // electionId => (version => (voter => hasVoted))
+    mapping(uint => mapping(uint => mapping(address => bool))) public hasVoted;
+    
     uint[] public electionIds;
     
     event ElectionCreated(uint indexed electionId, string name, uint startTime, uint endTime);
@@ -71,6 +80,7 @@ contract CarthageChainVoting {
         admin = msg.sender;
         electionContract = ICarthageChainElection(_electionContractAddress);
         currentElectionId = 0;
+        votingVersion = 1;  // Start with version 1
     }
     
     // Election related functions
@@ -142,7 +152,7 @@ contract CarthageChainVoting {
         emit ElectionEnded(_electionId);
     }
     
-    // Updated castVote function to work with separate status types
+    // Updated castVote function to work with voting versions
     function castVote(uint _electionId, uint _candidateIndex) public electionExists(_electionId) {
         Election storage election = elections[_electionId];
         require(election.state == ElectionState.Ongoing, "Election is not ongoing");
@@ -178,11 +188,12 @@ contract CarthageChainVoting {
         require(isApprovedVoter || isApprovedCandidate, 
                 "You must be either an approved voter or an approved candidate to vote");
         
-        require(!hasVoted[_electionId][msg.sender], "You have already voted in this election");
+        // Check hasVoted with current voting version
+        require(!hasVoted[_electionId][votingVersion][msg.sender], "You have already voted in this election");
         
-        // Record the vote
+        // Record the vote with current version
         election.voteCounts[_candidateIndex]++;
-        hasVoted[_electionId][msg.sender] = true;
+        hasVoted[_electionId][votingVersion][msg.sender] = true;
         
         emit VoteCast(_electionId, msg.sender, election.candidates[_candidateIndex]);
     }
@@ -217,7 +228,7 @@ contract CarthageChainVoting {
     
     // Function to check if a voter has voted in an election
     function hasVotedInElection(uint _electionId, address _voter) public view electionExists(_electionId) returns (bool) {
-        return hasVoted[_electionId][_voter];
+        return hasVoted[_electionId][votingVersion][_voter];
     }
     
     // Function to get election results
@@ -300,12 +311,19 @@ contract CarthageChainVoting {
     
     // Function to reset the contract for testing purposes
     function resetContract() public onlyAdmin {
+        // First, delete all elections data
         for (uint i = 0; i < electionIds.length; i++) {
             uint electionId = electionIds[i];
             delete elections[electionId];
         }
         
+        // Clear the election IDs array
         delete electionIds;
+        
+        // Reset the election ID counter to 0
         currentElectionId = 0;
+        
+        // Increment the voting version - this invalidates all previous hasVoted records
+        votingVersion++;
     }
 }
